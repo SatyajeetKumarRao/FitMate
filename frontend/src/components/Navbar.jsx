@@ -46,10 +46,10 @@ const NavBar = () => {
             <Button>Logout</Button>
           ) : (
             <>
-              <Button backgroundColor={"transparent"} border={"1px solid white"} mr={4}>
+              <Button backgroundColor={"transparent"} border={"1px solid white"} mr={4} zIndex={3}>
                 Login
               </Button>
-              <Button backgroundColor={"#fff900"} mr={4}>
+              <Button backgroundColor={"#fff900"} mr={4} zIndex={3}>
                 Register
               </Button>
             </>
