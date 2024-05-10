@@ -17,7 +17,7 @@ const NavBar = () => {
     },
   ];
 
-  const activeStyle = { color: "#fff900", fontWeight: "bold" };
+  // const activeStyle = { color: "#fff900", fontWeight: "bold" };
   const transparentBackground = { backgroundColor: "black", minHeight: "8vh" }; // Adjusted minHeight
 
   const toggleMenu = () => {
@@ -53,7 +53,7 @@ const NavBar = () => {
             <NavLink
               key={link.to}
               to={link.to}
-              activeStyle={activeStyle}
+              // activeStyle={activeStyle}
               onClick={() => setIsActive(false)}
               style={{ color: "white", marginRight: "20px" }}
             >
@@ -67,7 +67,7 @@ const NavBar = () => {
           ) : (
             <>
               <Button
-                backgroundColor={"transparent"}
+                backgroundColor={"#fff900"}
                 border={"1px solid white"}
                 mr={4}
                 zIndex={3}
