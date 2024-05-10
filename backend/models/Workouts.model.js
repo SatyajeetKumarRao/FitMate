@@ -1,12 +1,17 @@
 const mongoose = require("mongoose");
 
 // Define Workout Schema
-const workoutSchema = new mongoose.Schema({
-  user: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
-  date: { type: Date, default: Date.now },
-  exercises: [{ type: mongoose.Schema.Types.ObjectId, ref: "Exercise" }],
-  duration: Number,
-});
+const workoutSchema = new mongoose.Schema(
+  {
+    user: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+    date: { type: Date, default: Date.now },
+    exercises: [{ type: mongoose.Schema.Types.ObjectId, ref: "Exercise" }],
+    duration: Number,
+  },
+  {
+    versionKey: false,
+  }
+);
 
 // Create Models
 

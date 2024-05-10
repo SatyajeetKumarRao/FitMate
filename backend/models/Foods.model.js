@@ -1,16 +1,21 @@
 const mongoose = require("mongoose");
 
 // Define Food Schema
-const foodSchema = new mongoose.Schema({
-  name: { type: String, required: true },
-  calories: { type: Number, required: true },
-  servingSize: String,
-  macros: {
-    protein: Number,
-    carbs: Number,
-    fat: Number,
+const foodSchema = new mongoose.Schema(
+  {
+    name: { type: String, required: true },
+    calories: { type: Number, required: true },
+    servingSize: String,
+    macros: {
+      protein: Number,
+      carbs: Number,
+      fat: Number,
+    },
   },
-});
+  {
+    versionKey: false,
+  }
+);
 
 // Create Models
 
