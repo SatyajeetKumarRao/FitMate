@@ -2,7 +2,7 @@ require("dotenv").config();
 const bcrypt = require("bcrypt");
 var jwt = require("jsonwebtoken");
 const { User } = require("../models/users.model");
-const { BlacklistToken } = require("../models/blacklistToken.model");
+// const { BlacklistToken } = require("../models/blacklistToken.model");
 
 const saltRounds = 10;
 
@@ -101,160 +101,160 @@ const userRegister = async (req, res) => {
   }
 };
 
-const getUsers = async (req, res) => {
-  try {
-    const page = req.query.page - 1 || 0;
-    const limit = req.query.limit || 5;
+// const getUsers = async (req, res) => {
+//   try {
+//     const page = req.query.page - 1 || 0;
+//     const limit = req.query.limit || 5;
 
-    const userData = await User.find({}, { password: 0 })
-      .skip(limit * page)
-      .limit(limit);
+//     const userData = await User.find({}, { password: 0 })
+//       .skip(limit * page)
+//       .limit(limit);
 
-    const totalData = await User.countDocuments();
+//     const totalData = await User.countDocuments();
 
-    const totalPages = Math.ceil(totalData / limit);
+//     const totalPages = Math.ceil(totalData / limit);
 
-    return res.status(200).json({
-      error: false,
-      limit,
-      currentPage: page + 1,
-      totalCount: totalData,
-      totalPages,
-      data: userData,
-      message: "User get route",
-    });
-  } catch (error) {
-    console.log(error.message);
+//     return res.status(200).json({
+//       error: false,
+//       limit,
+//       currentPage: page + 1,
+//       totalCount: totalData,
+//       totalPages,
+//       data: userData,
+//       message: "User get route",
+//     });
+//   } catch (error) {
+//     console.log(error.message);
 
-    return res.status(400).json({ error: true, message: error.message });
-  }
-};
+//     return res.status(400).json({ error: true, message: error.message });
+//   }
+// };
 
-const getUserById = async (req, res) => {
-  try {
-    const { id } = req.params;
+// const getUserById = async (req, res) => {
+//   try {
+//     const { id } = req.params;
 
-    const userData = await User.findById(id, { password: 0 });
+//     const userData = await User.findById(id, { password: 0 });
 
-    if (!userData) {
-      return res
-        .status(404)
-        .json({ error: true, message: `User with Id : ${id} doesn't exists.` });
-    }
+//     if (!userData) {
+//       return res
+//         .status(404)
+//         .json({ error: true, message: `User with Id : ${id} doesn't exists.` });
+//     }
 
-    return res.status(200).json({
-      error: false,
-      data: userData,
-      message: "User get by id route",
-    });
-  } catch (error) {
-    console.log(error.message);
-    return res.status(400).json({ error: true, message: error.message });
-  }
-};
+//     return res.status(200).json({
+//       error: false,
+//       data: userData,
+//       message: "User get by id route",
+//     });
+//   } catch (error) {
+//     console.log(error.message);
+//     return res.status(400).json({ error: true, message: error.message });
+//   }
+// };
 
-const updateUser = async (req, res) => {
-  try {
-    const { id } = req.params;
+// const updateUser = async (req, res) => {
+//   try {
+//     const { id } = req.params;
 
-    const updateData = req.body;
+//     const updateData = req.body;
 
-    const userData = await User.findById(id, { password: 0 });
+//     const userData = await User.findById(id, { password: 0 });
 
-    if (!userData) {
-      return res.status(404).json({
-        error: true,
-        message: `User with Id : ${id} doesn't exists.`,
-      });
-    }
+//     if (!userData) {
+//       return res.status(404).json({
+//         error: true,
+//         message: `User with Id : ${id} doesn't exists.`,
+//       });
+//     }
 
-    const updateObjectArray = Object.keys(updateData)
-      .filter((updateKey) => {
-        return updateKey != "email" && updateKey != "id";
-      })
-      .map((updateKey) => {
-        if (updateKey != "email" && updateKey != "id") {
-          return { [updateKey]: updateData[updateKey] };
-        }
-      });
+//     const updateObjectArray = Object.keys(updateData)
+//       .filter((updateKey) => {
+//         return updateKey != "email" && updateKey != "id";
+//       })
+//       .map((updateKey) => {
+//         if (updateKey != "email" && updateKey != "id") {
+//           return { [updateKey]: updateData[updateKey] };
+//         }
+//       });
 
-    const updateObject = updateObjectArray.reduce((acc, obj) => {
-      return { ...acc, ...obj };
-    }, {});
+//     const updateObject = updateObjectArray.reduce((acc, obj) => {
+//       return { ...acc, ...obj };
+//     }, {});
 
-    const updatedUserData = await User.findByIdAndUpdate(id, updateObject, {
-      new: true,
-      upsert: true,
-    });
+//     const updatedUserData = await User.findByIdAndUpdate(id, updateObject, {
+//       new: true,
+//       upsert: true,
+//     });
 
-    return res.status(200).json({
-      error: false,
-      data: updatedUserData,
-      message: `User with Id :${id} has been updated`,
-    });
-  } catch (error) {
-    console.log(error.message);
-    return res.status(400).json({ error: true, message: error.message });
-  }
-};
+//     return res.status(200).json({
+//       error: false,
+//       data: updatedUserData,
+//       message: `User with Id :${id} has been updated`,
+//     });
+//   } catch (error) {
+//     console.log(error.message);
+//     return res.status(400).json({ error: true, message: error.message });
+//   }
+// };
 
-const deleteUser = async (req, res) => {
-  try {
-    const { id } = req.params;
+// const deleteUser = async (req, res) => {
+//   try {
+//     const { id } = req.params;
 
-    const userData = await User.findByIdAndDelete(id);
+//     const userData = await User.findByIdAndDelete(id);
 
-    if (!userData) {
-      return res.status(404).json({
-        error: true,
-        message: `User with Id : ${id} doesn't exists.`,
-      });
-    }
+//     if (!userData) {
+//       return res.status(404).json({
+//         error: true,
+//         message: `User with Id : ${id} doesn't exists.`,
+//       });
+//     }
 
-    return res.status(200).json({
-      error: false,
-      data: userData,
-      message: `User with Id :${id} has been deleted`,
-    });
-  } catch (error) {
-    console.log(error.message);
-    return res.status(400).json({ error: true, message: error.message });
-  }
-};
+//     return res.status(200).json({
+//       error: false,
+//       data: userData,
+//       message: `User with Id :${id} has been deleted`,
+//     });
+//   } catch (error) {
+//     console.log(error.message);
+//     return res.status(400).json({ error: true, message: error.message });
+//   }
+// };
 
-const logoutUser = async (req, res) => {
-  try {
-    if (
-      req.headers.authorization &&
-      req.headers.authorization.split(" ")[0] == "Bearer"
-    ) {
-      const accessToken = req.headers.authorization.split(" ")[1];
+// const logoutUser = async (req, res) => {
+//   try {
+//     if (
+//       req.headers.authorization &&
+//       req.headers.authorization.split(" ")[0] == "Bearer"
+//     ) {
+//       const accessToken = req.headers.authorization.split(" ")[1];
 
-      const blacklistToken = new BlacklistToken({ token: accessToken });
+//       const blacklistToken = new BlacklistToken({ token: accessToken });
 
-      await blacklistToken.save();
+//       await blacklistToken.save();
 
-      return res.status(200).json({
-        error: false,
-        message: "User logged out successfully",
-      });
-    } else {
-      return res
-        .status(400)
-        .json({ error: true, message: "Access Token Required" });
-    }
-  } catch (error) {
-    console.log(error.message);
-    return res.status(400).json({ error: true, message: error.message });
-  }
-};
+//       return res.status(200).json({
+//         error: false,
+//         message: "User logged out successfully",
+//       });
+//     } else {
+//       return res
+//         .status(400)
+//         .json({ error: true, message: "Access Token Required" });
+//     }
+//   } catch (error) {
+//     console.log(error.message);
+//     return res.status(400).json({ error: true, message: error.message });
+//   }
+// };
 
 module.exports = {
   userLogin,
   userRegister,
-  getUsers,
-  getUserById,
-  updateUser,
-  deleteUser,
-  logoutUser,
+  // getUsers,
+  // getUserById,
+  // updateUser,
+  // deleteUser,
+  // logoutUser,
 };

@@ -13,7 +13,7 @@ const connectDB = () => {
     })
     .catch((error) => {
       console.log(`Unable to connect with Database. Error : ${error}`);
-      process.exit(1);
+      // process.exit(1);
     });
 };
 
