@@ -28,7 +28,7 @@ const NavBar = () => {
     <div className="navbar" style={transparentBackground}>
       <div
         className={`hamburger-menu ${isActive ? "active" : ""}`}
-        onClick={toggleMenu}
+        onClick={() => setIsActive((prev) => !prev)}
       >
         <span className="bar"></span>
         <span className="bar"></span>
@@ -40,7 +40,7 @@ const NavBar = () => {
         justify="space-between"
         style={transparentBackground}
       >
-        <NavLink to={"/"}>
+        <Link to={"/"}>
           <Flex align="center">
             <Image src="logo.png" alt="Logo" boxSize={"50px"} />
             <Text marginLeft="10px" color={"white"} fontSize={'25px'}>
@@ -53,8 +53,9 @@ const NavBar = () => {
             <NavLink
               key={link.to}
               to={link.to}
-              style={{ color: "white", marginRight: "20px", ...(window.location.pathname === link.to && activeStyle) }}
-              onClick={toggleMenu}
+              activeStyle={activeStyle}
+              onClick={() => setIsActive(false)}
+              style={{ color: "white", marginRight: "20px" }}
             >
               {link.displayText}
             </NavLink>
@@ -66,15 +67,15 @@ const NavBar = () => {
           ) : (
             <>
               <Button
-                backgroundColor={"#fff900"}
+                backgroundColor={"transparent"}
                 border={"1px solid white"}
                 mr={4}
                 zIndex={3}
               >
-                Login
+                <NavLink to={"/login"}>Login</NavLink>
               </Button>
               <Button backgroundColor={"#fff900"} mr={4} zIndex={3}>
-                Register
+                <NavLink to={"/signup"}>Signup</NavLink>
               </Button>
             </>
           )}

@@ -1,17 +1,15 @@
-import './App.css'
-import AllRoutes from './components/AllRoutes'
-import { Home } from './components/Home'
-import Navbar from './components/Navbar'
+import "./App.css";
+import { Home } from "./components/Home";
+import Navbar from "./components/Navbar";
+import { AllRoutes } from "./routes/AllRoutes";
 
 function App() {
-
   return (
     <>
-    <Navbar/> 
-      {/* <Home /> */}
-    <AllRoutes /> 
+      {/* <Navbar/> */}
+      <AllRoutes />
     </>
-  )
+  );
 }
 
-export default App
+export default App;
