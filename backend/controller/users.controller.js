@@ -11,6 +11,8 @@ const userLogin = async (req, res) => {
   try {
     const { email, password } = req.body;
 
+    console.log(email);
+
     const user = await User.findOne({ email });
 
     console.log(user);
