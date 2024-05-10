@@ -168,9 +168,9 @@
   align-items: center;
   justify-content: center;
   padding: 0;
-  background: #ea9f48;
+  background: #fff000;
   font-size: 13px;
-  color: #fff;
+  color: #000000;
   text-transform: uppercase;
   font-family: "Muli-SemiBold";
   -webkit-transform: perspective(1px) translateZ(0);
@@ -189,7 +189,7 @@
   bottom: 0;
   left: 0;
   right: 0;
-  background: #f98805;
+  background: #f1e207;
   -webkit-transform: scaleX(0);
   transform: scaleX(0);
   -webkit-transform-origin: 50%;

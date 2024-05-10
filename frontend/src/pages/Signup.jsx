@@ -1,8 +1,16 @@
 import { useForm } from "react-hook-form";
 import "../styles/css/style.css";
 import "../styles/fonts/material-design-iconic-font/css/material-design-iconic-font.min.css";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Button } from "@chakra-ui/react";
+import { useToast } from "@chakra-ui/react";
+import { useState } from "react";
+
+const initialData = {
+  isLoading: false,
+  isError: false,
+  isSuccess: false,
+};
 
 const Signup = () => {
   const {
@@ -10,6 +18,10 @@ const Signup = () => {
     handleSubmit,
     formState: { errors },
   } = useForm();
+
+  const [formState, setFormState] = useState(initialData);
+
+  const toast = useToast();
 
   const navigate = useNavigate();
 
@@ -42,7 +54,9 @@ const Signup = () => {
       },
     };
 
-    console.log(registrationData);
+    // console.log(registrationData);
+
+    setFormState({ ...formState, isLoading: true, isError: false });
 
     fetch("https://tungabhadra-recursion-038.onrender.com/users/register", {
       method: "POST",
@@ -54,13 +68,34 @@ const Signup = () => {
       .then((response) => response.json())
       .then((responseData) => {
         if (responseData.error) {
-          alert(responseData.message);
+          setFormState({
+            ...formState,
+            isLoading: false,
+            isError: false,
+            isSuccess: true,
+          });
+
+          // alert(responseData.message);
+
+          toast({
+            title: responseData.message,
+            // description: "We've created your account for you.",
+            status: "error",
+            duration: 5000,
+            position: "top-right",
+            isClosable: true,
+          });
         } else {
           alert("SignUp successful, Login now.");
           navigate("/");
         }
       })
       .catch((error) => {
+        setFormState({
+          ...formState,
+          isLoading: false,
+          isError: true,
+        });
         console.log(error);
       });
   };
@@ -218,7 +253,7 @@ const Signup = () => {
 
             <div className="form-group">
               <div className="form-wrapper">
-                <label htmlFor="">Current Weight:</label>
+                <label htmlFor="">Current Weight (in kg):</label>
                 <div className="form-holder">
                   <i className="zmdi zmdi-code"></i>
                   <input
@@ -236,7 +271,7 @@ const Signup = () => {
               </div>
 
               <div className="form-wrapper">
-                <label htmlFor="">Target weight:</label>
+                <label htmlFor="">Target weight (in kg):</label>
                 <div className="form-holder">
                   <i className="zmdi zmdi-code"></i>
                   <input
@@ -303,7 +338,7 @@ const Signup = () => {
               </div>
               <div className="button-holder">
                 <Button
-                  isLoading={false}
+                  isLoading={formState.isLoading}
                   type="submit"
                   loadingText="Loading"
                   colorScheme="teal"
@@ -312,8 +347,18 @@ const Signup = () => {
                 >
                   Register Now
                 </Button>
-                {/* <button>Register Now</button> */}
               </div>
+            </div>
+            <div
+              style={{
+                marginTop: "20px",
+                textAlign: "center",
+                fontSize: "14px",
+                color: "#4299E1",
+                fontWeight: "bold",
+              }}
+            >
+              <Link to={"/login"}>Already have an account?</Link>
             </div>
           </form>
         </div>
