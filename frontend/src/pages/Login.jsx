@@ -17,7 +17,7 @@ const Login = () => {
   const navigate = useNavigate();
 
   const loginUser = async (data) => {
-    fetch("http://localhost:3000/users/login", {
+    fetch("https://tungabhadra-recursion-038.onrender.com/users/login", {
       method: "POST",
       headers: {
         "Content-type": "application/json",
