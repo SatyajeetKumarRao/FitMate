@@ -1,20 +1,10 @@
 import React from "react";
-import {
-  Box,
-  Flex,
-  Text,
-  Center,
-  Heading,
-  Button,
-  Image,
-} from "@chakra-ui/react";
-import NavBar from "./Navbar";
+import { Box, Flex, Text, Button, Image, Heading } from "@chakra-ui/react";
 
 export function Home() {
   return (
-    <Box bgGradient="linear(to-tr, #595732, #3f3f3a)" minH="100vh" color="white">
-      <NavBar />
-      <Flex ml={{ base: "20px", lg: "50px" }} mt="50px">
+    <Box bgGradient="linear(to-tr, #595732, #3f3f3a)"color="white" overflow="hidden">
+      <Flex ml={{ base: "20px", lg: "50px" }} minH="calc(100vh - 8vh)">
         <Box width={{ base: "100%", lg: "50%" }} p={6}>
           <Heading size="2xl" color="white">
             Feel Great. <br />
@@ -26,12 +16,7 @@ export function Home() {
             articles, for a whole body and mind <br />
             approach to feeling great
           </Text>
-          <Button
-            m={4}
-            backgroundColor="#FFF200"
-            _hover={{ bg: "#FFF000" }}
-            color="black"
-          >
+          <Button m={4} backgroundColor="#FFF200" color="black">
             Start Training
           </Button>
           <Text
@@ -42,14 +27,14 @@ export function Home() {
             fontSize="200px"
             position="absolute"
             bottom="0"
-            justifyContent={'center'}
+            justifyContent="center"
             zIndex="1"
           >
             Exercise
           </Text>
         </Box>
         <Flex justify="center" width={{ base: "100%", lg: "50%" }} zIndex={2}>
-          <Image src="/banner.png" alt="banner" className="banner-img" />
+          <Image src="/banner.png" alt="banner" className="banner-img" boxSize="100vh" overflow={'hidden'} />
         </Flex>
       </Flex>
     </Box>

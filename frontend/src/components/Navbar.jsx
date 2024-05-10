@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link, NavLink } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { Image, Flex, Button, Text } from "@chakra-ui/react";
 
 const NavBar = () => {
@@ -17,8 +17,12 @@ const NavBar = () => {
     },
   ];
 
-  const activeStyle = { color: "green", fontWeight: "bold" };
-  const transparentBackground = { backgroundColor: "transparent" };
+  // const activeStyle = { color: "#fff900", fontWeight: "bold" };
+  const transparentBackground = { backgroundColor: "black", minHeight: "8vh" }; // Adjusted minHeight
+
+  const toggleMenu = () => {
+    setIsActive((prev) => !prev);
+  };
 
   return (
     <div className="navbar" style={transparentBackground}>
@@ -36,18 +40,20 @@ const NavBar = () => {
         justify="space-between"
         style={transparentBackground}
       >
-        <Link to={"/"}>
+        <NavLink to={"/"}>
           <Flex align="center">
             <Image src="logo.png" alt="Logo" boxSize={"50px"} />
-            <Text marginLeft="10px">FITMATE</Text>
+            <Text marginLeft="10px" color={"white"} fontSize={'25px'}>
+              FITMATE
+            </Text>
           </Flex>
-        </Link>
+        </NavLink>
         <div>
           {listOfLinks.map((link) => (
             <NavLink
               key={link.to}
               to={link.to}
-              activeStyle={activeStyle}
+              // activeStyle={activeStyle}
               onClick={() => setIsActive(false)}
               style={{ color: "white", marginRight: "20px" }}
             >
@@ -57,11 +63,11 @@ const NavBar = () => {
         </div>
         <div>
           {isLoggedIn ? (
-            <Button>Logout</Button>
+            <Button onClick={() => setIsLoggedIn(false)}>Logout</Button>
           ) : (
             <>
               <Button
-                backgroundColor={"transparent"}
+                backgroundColor={"#fff900"}
                 border={"1px solid white"}
                 mr={4}
                 zIndex={3}

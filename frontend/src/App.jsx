@@ -6,7 +6,7 @@ import { AllRoutes } from "./routes/AllRoutes";
 function App() {
   return (
     <>
-      {/* <Navbar/> */}
+      <Navbar/>
       <AllRoutes />
     </>
   );
