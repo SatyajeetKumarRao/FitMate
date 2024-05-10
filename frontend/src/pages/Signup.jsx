@@ -8,24 +8,42 @@ const Signup = () => {
     register,
     handleSubmit,
     formState: { errors },
-    getValues,
   } = useForm();
 
   const navigate = useNavigate();
 
   const registerUser = async (data) => {
-    const { name, email, dob, gender, location, password } = data;
+    const {
+      name,
+      goal,
+      activityLevel,
+      gender,
+      dob,
+      height,
+      weight,
+      targetWeight,
+      email,
+      password,
+    } = data;
 
     const registrationData = {
       name,
       email,
+      password,
+      height,
+      initialWeight: weight,
       dob,
       gender,
-      location,
-      password,
+      goals: {
+        goal,
+        targetWeight,
+        activityLevel,
+      },
     };
 
-    fetch("http://localhost:8080/users/register", {
+    console.log(registrationData);
+
+    fetch("https://tungabhadra-recursion-038.onrender.com/users/register", {
       method: "POST",
       headers: {
         "Content-type": "application/json",
@@ -67,85 +85,71 @@ const Signup = () => {
                   />
                 </div>
                 {errors.name?.type === "required" && (
-                  <p role="alert">Name is required</p>
+                  <p role="alert" style={{ color: "red" }}>
+                    Name is required
+                  </p>
                 )}
               </div>
 
               <div className="form-wrapper">
-                <label htmlFor="">Email:</label>
-                <div className="form-holder">
-                  <i style={{ fontStyle: "normal", fontSize: "15px" }}>@</i>
-                  <input
-                    type="email"
+                <label htmlFor="">Goal:</label>
+                <div className="form-holder select">
+                  <select
+                    name=""
+                    id=""
+                    defaultValue={""}
                     className="form-control"
-                    {...register("email", { required: true })}
-                    aria-invalid={errors.email ? "true" : "false"}
-                  />
+                    {...register("goal", { required: true })}
+                    aria-invalid={errors.goal ? "true" : "false"}
+                  >
+                    <option value="" disabled>
+                      -select goal-
+                    </option>
+
+                    <option value="Lose weight">Lose weight</option>
+                    <option value="Maintain weight">Maintain weight</option>
+                    <option value="Gain weight">Gain weight</option>
+                  </select>
+                  <i className="zmdi zmdi-fire"></i>
                 </div>
-                {errors.email?.type === "required" && (
-                  <p role="alert">Email is required</p>
+                {errors.goal?.type === "required" && (
+                  <p role="alert" style={{ color: "red" }}>
+                    Goal is required
+                  </p>
                 )}
               </div>
             </div>
+
             <div className="form-group">
               <div className="form-wrapper">
-                <label htmlFor="">Password:</label>
-                <div className="form-holder">
-                  <i className="zmdi zmdi-lock-outline"></i>
-                  <input
-                    type="password"
+                <label htmlFor="">Baseline Activity:</label>
+                <div className="form-holder select">
+                  <select
+                    name=""
+                    id=""
+                    defaultValue={""}
                     className="form-control"
-                    placeholder="********"
-                    {...register("password", { required: true })}
-                    aria-invalid={errors.password ? "true" : "false"}
-                  />
+                    {...register("activityLevel", { required: true })}
+                    aria-invalid={errors.activityLevel ? "true" : "false"}
+                  >
+                    <option value="" disabled>
+                      -select baseline activity-
+                    </option>
+
+                    <option value="Sedentary">Not Very Active</option>
+                    <option value="Lightly Active">Lightly Active</option>
+                    <option value="Moderately Active">Moderately Active</option>
+                    <option value="Very Active">Very Active</option>
+                  </select>
+                  <i className="zmdi zmdi-run"></i>
                 </div>
-                {errors.password?.type === "required" && (
-                  <p role="alert">Password is required</p>
+                {errors.activityLevel?.type === "required" && (
+                  <p role="alert" style={{ color: "red" }}>
+                    Baseline Activity is required
+                  </p>
                 )}
               </div>
-              <div className="form-wrapper">
-                <label htmlFor="">Repeat Password:</label>
-                <div className="form-holder">
-                  <i className="zmdi zmdi-lock-outline"></i>
-                  <input
-                    type="password"
-                    className="form-control"
-                    placeholder="********"
-                    {...register("confirmPassword", {
-                      required: true,
-                      validate: (value) => {
-                        const { password } = getValues();
-                        return password === value || "Passwords should match!";
-                      },
-                    })}
-                    aria-invalid={errors.confirmPassword ? "true" : "false"}
-                  />
-                </div>
-                {errors.confirmPassword?.type === "required" && (
-                  <p role="alert">Confirm password is required</p>
-                )}
-                {errors.confirmPassword && (
-                  <p className="error">{errors.confirmPassword.message}</p>
-                )}
-              </div>
-            </div>
-            <div className="form-group">
-              <div className="form-wrapper">
-                <label htmlFor="">Location:</label>
-                <div className="form-holder">
-                  <i className="zmdi zmdi-pin"></i>
-                  <input
-                    type="text"
-                    className="form-control"
-                    {...register("location", { required: true })}
-                    aria-invalid={errors.location ? "true" : "false"}
-                  />
-                </div>
-                {errors.location?.type === "required" && (
-                  <p role="alert">Location is required</p>
-                )}
-              </div>
+
               <div className="form-wrapper">
                 <label htmlFor="">Gender:</label>
                 <div className="form-holder select">
@@ -166,7 +170,9 @@ const Signup = () => {
                   <i className="zmdi zmdi-face"></i>
                 </div>
                 {errors.gender?.type === "required" && (
-                  <p role="alert">Gender is required</p>
+                  <p role="alert" style={{ color: "red" }}>
+                    Gender is required
+                  </p>
                 )}
               </div>
             </div>
@@ -184,10 +190,108 @@ const Signup = () => {
                   />
                 </div>
                 {errors.dob?.type === "required" && (
-                  <p role="alert">DOB is required</p>
+                  <p role="alert" style={{ color: "red" }}>
+                    DOB is required
+                  </p>
+                )}
+              </div>
+
+              <div className="form-wrapper">
+                <label htmlFor="">Height (in cm):</label>
+                <div className="form-holder">
+                  <i className="zmdi zmdi-sort-asc"></i>
+                  <input
+                    type="number"
+                    className="form-control"
+                    {...register("height", { required: true })}
+                    aria-invalid={errors.height ? "true" : "false"}
+                  />
+                </div>
+                {errors.height?.type === "required" && (
+                  <p role="alert" style={{ color: "red" }}>
+                    Height is required
+                  </p>
                 )}
               </div>
             </div>
+
+            <div className="form-group">
+              <div className="form-wrapper">
+                <label htmlFor="">Current Weight:</label>
+                <div className="form-holder">
+                  <i className="zmdi zmdi-code"></i>
+                  <input
+                    type="number"
+                    className="form-control"
+                    {...register("weight", { required: true })}
+                    aria-invalid={errors.weight ? "true" : "false"}
+                  />
+                </div>
+                {errors.weight?.type === "required" && (
+                  <p role="alert" style={{ color: "red" }}>
+                    Weight is required
+                  </p>
+                )}
+              </div>
+
+              <div className="form-wrapper">
+                <label htmlFor="">Target weight:</label>
+                <div className="form-holder">
+                  <i className="zmdi zmdi-code"></i>
+                  <input
+                    type="number"
+                    className="form-control"
+                    {...register("targetWeight", { required: true })}
+                    aria-invalid={errors.targetWeight ? "true" : "false"}
+                  />
+                </div>
+                {errors.targetWeight?.type === "required" && (
+                  <p role="alert" style={{ color: "red" }}>
+                    Target Weight is required
+                  </p>
+                )}
+              </div>
+            </div>
+
+            <div className="form-group">
+              <div className="form-wrapper">
+                <label htmlFor="">Email:</label>
+                <div className="form-holder">
+                  <i style={{ fontStyle: "normal", fontSize: "15px" }}>@</i>
+                  <input
+                    type="email"
+                    className="form-control"
+                    {...register("email", { required: true })}
+                    aria-invalid={errors.email ? "true" : "false"}
+                  />
+                </div>
+                {errors.email?.type === "required" && (
+                  <p role="alert" style={{ color: "red" }}>
+                    Email is required
+                  </p>
+                )}
+              </div>
+
+              <div className="form-wrapper">
+                <label htmlFor="">Password:</label>
+                <div className="form-holder">
+                  <i className="zmdi zmdi-lock-outline"></i>
+                  <input
+                    type="password"
+                    className="form-control"
+                    placeholder="********"
+                    {...register("password", { required: true })}
+                    aria-invalid={errors.password ? "true" : "false"}
+                  />
+                </div>
+                {errors.password?.type === "required" && (
+                  <p role="alert" style={{ color: "red" }}>
+                    Password is required
+                  </p>
+                )}
+              </div>
+            </div>
+
             <div className="form-end">
               <div className="checkbox">
                 <label>

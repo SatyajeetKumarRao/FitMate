@@ -2,10 +2,9 @@ import { useForm } from "react-hook-form";
 import "../styles/css/style.css";
 import "../styles/fonts/material-design-iconic-font/css/material-design-iconic-font.min.css";
 import { useNavigate } from "react-router-dom";
-import { useContext } from "react";
+// import { useContext } from "react";
 // import { AuthContext } from "../contexts/AuthContext";
 
-const AuthContext = null;
 const Login = () => {
   const {
     register,
@@ -13,12 +12,12 @@ const Login = () => {
     formState: { errors },
   } = useForm();
 
-  const { auth, setAuth } = useContext(AuthContext);
+  // const { auth, setAuth } = useContext(AuthContext);
 
   const navigate = useNavigate();
 
   const loginUser = async (data) => {
-    fetch("http://localhost:8080/users/login", {
+    fetch("http://localhost:3000/users/login", {
       method: "POST",
       headers: {
         "Content-type": "application/json",
@@ -36,12 +35,12 @@ const Login = () => {
           localStorage.setItem("refreshAccessToken", responseData.refreshToken);
           localStorage.setItem("username", responseData.data.username);
 
-          setAuth({
-            ...auth,
-            isAuth: true,
-            username: responseData.data.username,
-            accessToken: responseData.accessToken,
-          });
+          // setAuth({
+          //   ...auth,
+          //   isAuth: true,
+          //   username: responseData.data.username,
+          //   accessToken: responseData.accessToken,
+          // });
 
           alert("Login Successful");
           navigate("/");
