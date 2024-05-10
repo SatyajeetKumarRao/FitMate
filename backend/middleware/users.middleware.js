@@ -16,6 +16,7 @@ const validateRegister = (req, res, next) => {
     dob &&
     gender &&
     goals.targetWeight &&
+    goals.goal &&
     goals.activityLevel
   ) {
     const isValidGender = ["male", "female"].includes(gender);
@@ -24,6 +25,18 @@ const validateRegister = (req, res, next) => {
       return res
         .status(400)
         .json({ error: true, message: "Invalid user gender" });
+    }
+
+    const isValidGoal = [
+      "Lose weight",
+      "Maintain weight",
+      "Gain weight",
+    ].includes(goals.goal);
+
+    if (!isValidGoal) {
+      return res
+        .status(400)
+        .json({ error: true, message: "Invalid user goal" });
     }
 
     const isValidActivityLevel = [
