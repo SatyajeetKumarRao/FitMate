@@ -15,7 +15,7 @@ const userLogin = async (req, res) => {
 
     const user = await User.findOne({ email });
 
-    console.log(user);
+    console.log(JSON.stringify(user));
 
     if (!user) {
       return res
