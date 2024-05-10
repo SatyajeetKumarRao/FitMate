@@ -1,3 +1,4 @@
+require("dotenv").config();
 const mongoose = require("mongoose");
 const dotenv = require("dotenv");
 const dotenvExpand = require("dotenv-expand");
@@ -5,9 +6,7 @@ dotenvExpand.expand(dotenv.config());
 
 const connectDB = () => {
   mongoose
-    .connect(process.env.DATABASE_URI, {
-      serverSelectionTimeoutMS: 5000,
-    })
+    .connect(process.env.DATABASE_URI)
     .then(() => {
       console.log(`Database connected`);
     })

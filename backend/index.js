@@ -21,11 +21,15 @@ app.get("/", (req, res) => {
 app.use("/users", usersRouter);
 
 app.all("*", (req, res) => {
-  res.status(404).json({ message: "404 Invalid Route" });
+  try {
+    res.status(404).json({ message: "404 Invalid Route" });
+  } catch (error) {
+    res.status(500).json({ message: `Some error occurred, Error : ${error}` });
+  }
 });
 
-app.listen(process.env.PORT, async () => {
-  await connectDB();
+app.listen(process.env.PORT, () => {
+  connectDB();
   console.log(`Server is running at port ${process.env.PORT}`);
 });
 
