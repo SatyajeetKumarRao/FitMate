@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-import { Link, NavLink } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { Image, Flex, Button, Text } from "@chakra-ui/react";
 
 const NavBar = () => {
-    const [isActive, setIsActive] = useState(false);
+  const [isActive, setIsActive] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   const listOfLinks = [
@@ -17,36 +17,60 @@ const NavBar = () => {
     },
   ];
 
-  const activeStyle = { color: "green", fontWeight: "bold" };
-  const transparentBackground = { backgroundColor: "transparent" };
+  const activeStyle = { color: "#fff900", fontWeight: "bold" };
+  const transparentBackground = { backgroundColor: "black", minHeight: "8vh" }; // Adjusted minHeight
+
+  const toggleMenu = () => {
+    setIsActive((prev) => !prev);
+  };
 
   return (
     <div className="navbar" style={transparentBackground}>
-      <div className={`hamburger-menu ${isActive ? "active" : ""}`} onClick={() => setIsActive((prev) => !prev)}>
+      <div
+        className={`hamburger-menu ${isActive ? "active" : ""}`}
+        onClick={toggleMenu}
+      >
         <span className="bar"></span>
         <span className="bar"></span>
         <span className="bar"></span>
       </div>
-      <Flex className={`navbar-inner ${isActive ? "active" : ""}`} align="center" justify="space-between" style={transparentBackground}>
-        <Link to={"/"}>
+      <Flex
+        className={`navbar-inner ${isActive ? "active" : ""}`}
+        align="center"
+        justify="space-between"
+        style={transparentBackground}
+      >
+        <NavLink to={"/"}>
           <Flex align="center">
             <Image src="logo.png" alt="Logo" boxSize={"50px"} />
-            <Text marginLeft="10px">FITMATE</Text>
+            <Text marginLeft="10px" color={"white"} fontSize={'25px'}>
+              FITMATE
+            </Text>
           </Flex>
-        </Link>
+        </NavLink>
         <div>
           {listOfLinks.map((link) => (
-            <NavLink key={link.to} to={link.to} activeStyle={activeStyle} onClick={() => setIsActive(false)} style={{ color: "white", marginRight: "20px" }}>
+            <NavLink
+              key={link.to}
+              to={link.to}
+              style={{ color: "white", marginRight: "20px", ...(window.location.pathname === link.to && activeStyle) }}
+              onClick={toggleMenu}
+            >
               {link.displayText}
             </NavLink>
           ))}
         </div>
         <div>
           {isLoggedIn ? (
-            <Button>Logout</Button>
+            <Button onClick={() => setIsLoggedIn(false)}>Logout</Button>
           ) : (
             <>
-              <Button backgroundColor={"transparent"} border={"1px solid white"} mr={4} zIndex={3}>
+              <Button
+                backgroundColor={"#fff900"}
+                border={"1px solid white"}
+                mr={4}
+                zIndex={3}
+              >
                 Login
               </Button>
               <Button backgroundColor={"#fff900"} mr={4} zIndex={3}>
