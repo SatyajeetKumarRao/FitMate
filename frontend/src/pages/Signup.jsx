@@ -2,6 +2,7 @@ import { useForm } from "react-hook-form";
 import "../styles/css/style.css";
 import "../styles/fonts/material-design-iconic-font/css/material-design-iconic-font.min.css";
 import { useNavigate } from "react-router-dom";
+import { Button } from "@chakra-ui/react";
 
 const Signup = () => {
   const {
@@ -301,7 +302,17 @@ const Signup = () => {
                 </label>
               </div>
               <div className="button-holder">
-                <button>Register Now</button>
+                <Button
+                  isLoading={false}
+                  type="submit"
+                  loadingText="Loading"
+                  colorScheme="teal"
+                  variant="outline"
+                  spinnerPlacement="start"
+                >
+                  Register Now
+                </Button>
+                {/* <button>Register Now</button> */}
               </div>
             </div>
           </form>
