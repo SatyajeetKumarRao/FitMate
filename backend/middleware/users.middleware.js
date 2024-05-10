@@ -4,8 +4,6 @@ require("dotenv").config();
 // const { BlacklistToken } = require("../models/blacklistToken.model");
 
 const validateRegister = (req, res, next) => {
-  console.log("user register middleware");
-
   const { name, email, password, height, initialWeight, dob, gender, goals } =
     req.body;
 
@@ -52,8 +50,6 @@ const validateRegister = (req, res, next) => {
 };
 
 const validateLogin = (req, res, next) => {
-  console.log("user login middleware");
-
   const { email, password } = req.body;
 
   if (email && password) {

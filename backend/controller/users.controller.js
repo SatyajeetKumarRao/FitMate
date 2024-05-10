@@ -7,15 +7,12 @@ const { User } = require("../models/users.model");
 const saltRounds = 10;
 
 const userLogin = async (req, res) => {
-  console.log("user login");
   try {
     const { email, password } = req.body;
 
-    console.log(email);
-
     const user = await User.findOne({ email });
 
-    console.log(JSON.stringify(user));
+    console.log(user.name);
 
     if (!user) {
       return res
@@ -59,8 +56,6 @@ const userLogin = async (req, res) => {
 };
 
 const userRegister = async (req, res) => {
-  console.log("user register");
-
   try {
     const { name, email, password, height, initialWeight, dob, gender, goals } =
       req.body;
