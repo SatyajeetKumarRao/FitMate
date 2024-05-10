@@ -12,8 +12,6 @@ const userLogin = async (req, res) => {
 
     const user = await User.findOne({ email });
 
-    console.log(user.name);
-
     if (!user) {
       return res
         .status(400)
