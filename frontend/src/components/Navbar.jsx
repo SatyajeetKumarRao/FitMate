@@ -40,7 +40,7 @@ const NavBar = () => {
         justify="space-between"
         style={transparentBackground}
       >
-        <Link to={"/"}>
+        <NavLink to={"/"}>
           <Flex align="center">
             <Image src="logo.png" alt="Logo" boxSize={"50px"} />
             <Text marginLeft="10px" color={"white"} fontSize={'25px'}>
