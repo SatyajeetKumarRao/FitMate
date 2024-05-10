@@ -7,6 +7,7 @@ const { User } = require("../models/users.model");
 const saltRounds = 10;
 
 const userLogin = async (req, res) => {
+  console.log("user login");
   try {
     const { email, password } = req.body;
 
@@ -54,6 +55,8 @@ const userLogin = async (req, res) => {
 };
 
 const userRegister = async (req, res) => {
+  console.log("user register");
+
   try {
     const { name, email, password, height, initialWeight, dob, gender, goals } =
       req.body;
