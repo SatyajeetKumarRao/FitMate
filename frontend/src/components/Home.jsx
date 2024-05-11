@@ -12,7 +12,7 @@ export function Home() {
         <Box
           width={{ base: "100%", md: "50%" }}
           p={{ base: 6, lg: 10 }}
-          textAlign={{ base: "center" }}
+          textAlign={{ base: "center", xl: "start" }}
         >
           <Heading size="2xl" color="white">
             Feel Great. <br />
@@ -32,21 +32,21 @@ export function Home() {
             color="#FFF200"
             opacity="0.3"
             display={{ base: "none", lg: "block" }}
-            fontSize={{ base: "3xl", lg: "5xl" }}
+            fontSize={{ base: "100px", lg: "160px" }}
             position="absolute"
             bottom="0"
-            left="50%"
+            left="40%"
             transform="translateX(-50%)"
           >
             Exercise
           </Text>
         </Box>
-        <Flex justify="center" width={{ base: "100%", md: "50%" }} zIndex={2}>
+        <Flex justify={{base : "center", xl : "end" }}width={{ base: "100%", md: "50%" }} zIndex={2}>
           <Image
             src="/banner.png"
             alt="banner"
             className="banner-img"
-            boxSize={{ base: "auto", lg: "100vh" }}
+            boxSize={{ base: "auto", lg: "90vh", xl: "92vh" }}
             maxWidth="100%"
             // maxHeight={{ base: "50vh", lg: "100%" }}
             overflow="hidden"

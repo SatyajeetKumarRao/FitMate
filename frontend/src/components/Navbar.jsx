@@ -18,8 +18,9 @@ const NavBar = () => {
     },
   ];
 
-  // const activeStyle = { color: "#fff900", fontWeight: "bold" };
-  const transparentBackground = { backgroundColor: "black", minHeight: "8vh" }; // Adjusted minHeight
+  const defaultStyle = { color: 'white' ,fontWeight: "bold", marginRight: "20px" };
+  const activeStyle = { color: "#fff900",fontWeight: "bold", marginRight: "20px" };
+  const transparentBackground = { backgroundColor: "black", minHeight: "8vh" }; 
 
   const toggleMenu = () => {
     setIsActive((prev) => !prev);
@@ -28,7 +29,7 @@ const NavBar = () => {
   return (
     <div className="navbar" style={transparentBackground}>
       <div
-        className={`hamburger-menu ${isActive ? "active" : ""}`}
+        className={`hamburger-menu ${isActive ? "active" : null}`}
         onClick={toggleMenu}
       >
         <span className="bar"></span>
@@ -36,32 +37,33 @@ const NavBar = () => {
         <span className="bar"></span>
       </div>
       <Flex
-        className={`navbar-inner ${isActive ? "active" : ""}`}
+        className={`navbar-inner ${isActive ? "active" : null}`}
         align="center"
         justify="space-between"
         style={transparentBackground}
       >
         <NavLink to={"/"}>
           <Flex align="center">
-            <Image src="logo.png" alt="Logo" boxSize={"50px"} />
+            <Image src="logo.png" alt="Logo" boxSize={"50px"} pl={3} />
             <Text marginLeft="10px" color={"white"} fontSize={'25px'}>
               FITMATE
             </Text>
           </Flex>
         </NavLink>
-        <div>
+        <Flex
+          align="center"
+        >
           {listOfLinks.map((link) => (
             <NavLink
               key={link.to}
               to={link.to}
-              // activeStyle={activeStyle}
               onClick={() => setIsActive(false)}
-              style={{ color: "white", marginRight: "20px" }}
+              style={({ isActive }) => (isActive ? activeStyle : defaultStyle)}
             >
               {link.displayText}
             </NavLink>
           ))}
-        </div>
+        </Flex>
         <div>
           {isLoggedIn ? (
             <Button onClick={() => setIsLoggedIn(false)}>Logout</Button>
