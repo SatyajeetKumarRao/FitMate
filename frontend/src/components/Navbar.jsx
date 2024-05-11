@@ -85,7 +85,7 @@ const NavBar = () => {
         </Flex>
         <div>
           {isLoggedIn ? (
-            <Button onClick={() => setIsLoggedIn(false)}>Logout</Button>
+            <Button onClick={() => setIsLoggedIn(false)} className="btn">Logout</Button>
           ) : (
             <>
               <Button
