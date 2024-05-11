@@ -1,9 +1,12 @@
-import React from "react";
 import { Box, Flex, Text, Button, Image, Heading } from "@chakra-ui/react";
 
 export function Home() {
   return (
-    <Box bgGradient="linear(to-tr, #595732, #3f3f3a)" color="white" overflow="hidden">
+    <Box
+      bgGradient="linear(to-tr, #595732, #3f3f3a)"
+      color="white"
+      overflow="hidden"
+    >
       <Flex
         direction={{ base: "column", md: "row" }}
         ml={{ base: 0, lg: "50px" }}
@@ -35,18 +38,23 @@ export function Home() {
             fontSize={{ base: "100px", lg: "160px" }}
             position="absolute"
             bottom="0"
-            left="40%"
-            transform="translateX(-50%)"
+            // left="40%"
+            // transform="translateX(-50%)"
           >
             Exercise
           </Text>
         </Box>
-        <Flex justify={{base : "center", xl : "end" }}width={{ base: "100%", md: "50%" }} zIndex={2}>
+        <Flex
+          justify={{ base: "center", xl: "end" }}
+          width={{ base: "100%", md: "50%" }}
+          zIndex={2}
+        >
           <Image
             src="/banner.png"
             alt="banner"
             className="banner-img"
             boxSize={{ base: "auto", lg: "90vh", xl: "92vh" }}
+            objectFit={"contain"}
             maxWidth="100%"
             // maxHeight={{ base: "50vh", lg: "100%" }}
             overflow="hidden"
