@@ -1,7 +1,7 @@
-import React, { useState } from "react";
-import { NavLink } from "react-router-dom";
+import { useState } from "react";
+import { NavLink, useNavigate } from "react-router-dom";
 import { Image, Flex, Button, Text } from "@chakra-ui/react";
-import '../styles/Navbar/style.css'
+import "../styles/Navbar/style.css";
 
 const NavBar = () => {
   const [isActive, setIsActive] = useState(false);
@@ -18,9 +18,19 @@ const NavBar = () => {
     },
   ];
 
-  const defaultStyle = { color: 'white' ,fontWeight: "bold", marginRight: "20px" };
-  const activeStyle = { color: "#fff900",fontWeight: "bold", marginRight: "20px" };
-  const transparentBackground = { backgroundColor: "black", minHeight: "8vh" }; 
+  const navigate = useNavigate();
+
+  const defaultStyle = {
+    color: "white",
+    fontWeight: "bold",
+    marginRight: "20px",
+  };
+  const activeStyle = {
+    color: "#fff900",
+    fontWeight: "bold",
+    marginRight: "20px",
+  };
+  const transparentBackground = { backgroundColor: "black", minHeight: "8vh" };
 
   const toggleMenu = () => {
     setIsActive((prev) => !prev);
@@ -44,15 +54,24 @@ const NavBar = () => {
       >
         <NavLink to={"/"}>
           <Flex align="center">
-            <Image src="logo.png" alt="Logo" boxSize={"50px"} pl={3} />
-            <Text marginLeft="10px" color={"white"} fontSize={'25px'}>
+            <Image
+              src="logo.png"
+              alt="Logo"
+              boxSize={"50px"}
+              pl={3}
+              objectFit={"contain"}
+            />
+            <Text
+              marginLeft="10px"
+              color={"white"}
+              fontSize={"25px"}
+              fontWeight={"bold"}
+            >
               FITMATE
             </Text>
           </Flex>
         </NavLink>
-        <Flex
-          align="center"
-        >
+        <Flex align="center">
           {listOfLinks.map((link) => (
             <NavLink
               key={link.to}
@@ -74,11 +93,22 @@ const NavBar = () => {
                 border={"1px solid white"}
                 mr={4}
                 zIndex={3}
+                onClick={() => {
+                  navigate("/login");
+                }}
               >
-                <NavLink to={"/login"}>Login</NavLink>
+                {/* <NavLink to={"/login"}>Login</NavLink> */}
+                Login
               </Button>
-              <Button backgroundColor={"#fff900"} mr={4} zIndex={3}>
-                <NavLink to={"/signup"}>Signup</NavLink>
+              <Button
+                backgroundColor={"#fff900"}
+                mr={4}
+                zIndex={3}
+                onClick={() => {
+                  navigate("/signup");
+                }}
+              >
+                Signup
               </Button>
             </>
           )}
