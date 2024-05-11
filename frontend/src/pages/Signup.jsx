@@ -105,8 +105,9 @@ const Signup = () => {
       });
   };
 
+  //style="background-image: url('images/bg-registration-form-3.jpg');"
   return (
-    <div className="loginSignupContainer">
+    <div className="loginSignupContainer signUpContainer">
       <div className="wrapper">
         <div className="inner">
           <form onSubmit={handleSubmit(registerUser)}>

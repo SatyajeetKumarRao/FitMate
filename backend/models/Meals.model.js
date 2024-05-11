@@ -4,9 +4,17 @@ const mongoose = require("mongoose");
 const mealSchema = new mongoose.Schema(
   {
     user: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
-    date: { type: Date, default: Date.now },
-    foods: [{ type: mongoose.Schema.Types.ObjectId, ref: "Food" }],
-    quantity: Number,
+    date: { type: String, default: new Date().toISOString().split("T")[0] },
+    foods: [
+      {
+        _id: false,
+        food: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "Food",
+        },
+        quantity: Number,
+      },
+    ],
   },
   {
     versionKey: false,

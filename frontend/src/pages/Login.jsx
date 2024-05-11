@@ -106,7 +106,7 @@ const Login = () => {
   };
 
   return (
-    <div className="loginSignupContainer">
+    <div className="loginSignupContainer loginContainer">
       <div className="wrapper">
         <div className="inner">
           <form onSubmit={handleSubmit(loginUser)}>
@@ -124,7 +124,9 @@ const Login = () => {
                 />
               </div>
               {errors.email?.type === "required" && (
-                <p role="alert">Email is required</p>
+                <p role="alert" style={{ color: "red" }}>
+                  Email is required
+                </p>
               )}
             </div>
 
@@ -141,7 +143,9 @@ const Login = () => {
                 />
               </div>
               {errors.password?.type === "required" && (
-                <p role="alert">Password is required</p>
+                <p role="alert" style={{ color: "red" }}>
+                  Password is required
+                </p>
               )}
             </div>
 
