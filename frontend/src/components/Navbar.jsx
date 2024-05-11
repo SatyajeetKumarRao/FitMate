@@ -1,11 +1,13 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { NavLink } from "react-router-dom";
 import { Image, Flex, Button, Text } from "@chakra-ui/react";
 import '../styles/Navbar/style.css'
+import { AuthContext } from "../contexts/AuthContext";
 
 const NavBar = () => {
   const [isActive, setIsActive] = useState(false);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const {auth} = useContext(AuthContext);
+  console.log(auth);
 
   const listOfLinks = [
     {
@@ -65,8 +67,8 @@ const NavBar = () => {
           ))}
         </Flex>
         <div>
-          {isLoggedIn ? (
-            <Button onClick={() => setIsLoggedIn(false)}>Logout</Button>
+          {auth ? (
+            <Button onClick={() => setIsLoggedIn(false)} className="btn">Logout</Button>
           ) : (
             <>
               <Button
@@ -74,10 +76,11 @@ const NavBar = () => {
                 border={"1px solid white"}
                 mr={4}
                 zIndex={3}
+                className="btn"
               >
                 <NavLink to={"/login"}>Login</NavLink>
               </Button>
-              <Button backgroundColor={"#fff900"} mr={4} zIndex={3}>
+              <Button backgroundColor={"#fff900"} mr={4} zIndex={3} className="btn">
                 <NavLink to={"/signup"}>Signup</NavLink>
               </Button>
             </>
