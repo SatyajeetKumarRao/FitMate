@@ -1,4 +1,3 @@
-import React from "react";
 import NavBar from "../components/Navbar";
 import { Box, Heading, SimpleGrid } from "@chakra-ui/react";
 import { Chart } from "react-google-charts";

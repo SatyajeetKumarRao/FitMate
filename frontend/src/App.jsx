@@ -1,14 +1,12 @@
 import "./App.css";
-import { Home } from "./components/Home";
 import Navbar from "./components/Navbar";
-import UserDashboard from "./pages/UserDashboard";
+import { AllRoutes } from "./routes/AllRoutes";
 
 function App() {
   return (
     <>
-      {/* <Navbar/> */}
-      <Home />
-      {/* <UserDashboard/> */}
+      <Navbar/>
+      <AllRoutes/>
     </>
   );
 }
