@@ -75,8 +75,6 @@ const Signup = () => {
             isSuccess: true,
           });
 
-          // alert(responseData.message);
-
           toast({
             title: responseData.message,
             // description: "We've created your account for you.",
@@ -86,7 +84,14 @@ const Signup = () => {
             isClosable: true,
           });
         } else {
-          alert("SignUp successful, Login now.");
+          toast({
+            title: "SignUp Successful",
+            description: "We've created your account for you.",
+            status: "success",
+            duration: 5000,
+            position: "top-right",
+            isClosable: true,
+          });
           navigate("/");
         }
       })
@@ -358,7 +363,9 @@ const Signup = () => {
                 fontWeight: "bold",
               }}
             >
-              <Link to={"/login"}>Already have an account?</Link>
+              <Link to={"/login"}>
+                Already have an account? <span>Login</span>
+              </Link>
             </div>
           </form>
         </div>
