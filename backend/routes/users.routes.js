@@ -32,6 +32,8 @@ usersRouter.post("/register", validateRegister, userRegister);
 
 // usersRouter.post("/logout", logoutUser);
 
+
+
 usersRouter.all("*", (req, res) => {
   return res.status(404).json({ message: "404 Invalid Route" });
 });
