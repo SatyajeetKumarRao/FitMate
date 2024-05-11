@@ -3,14 +3,22 @@ import { Box, Flex, Text, Button, Image, Heading } from "@chakra-ui/react";
 
 export function Home() {
   return (
-    <Box bgGradient="linear(to-tr, #595732, #3f3f3a)"color="white" overflow="hidden">
-      <Flex ml={{ base: "20px", lg: "50px" }} minH="calc(100vh - 8vh)">
-        <Box width={{ base: "100%", lg: "50%" }} p={6}>
+    <Box bgGradient="linear(to-tr, #595732, #3f3f3a)" color="white" overflow="hidden">
+      <Flex
+        direction={{ base: "column", md: "row" }}
+        ml={{ base: 0, lg: "50px" }}
+        minH="calc(100vh - 8vh)"
+      >
+        <Box
+          width={{ base: "100%", md: "50%" }}
+          p={{ base: 6, lg: 10 }}
+          textAlign={{ base: "center" }}
+        >
           <Heading size="2xl" color="white">
             Feel Great. <br />
             Body and Mind.
           </Heading>
-          <Text fontSize="xl" color="gray.300" mt={6}>
+          <Text fontSize={{ base: "lg", md: "xl" }} color="gray.300" mt={6}>
             Choose from hundreds of workouts, healthy <br />
             recipes, relaxing meditations, and expert <br />
             articles, for a whole body and mind <br />
@@ -24,17 +32,25 @@ export function Home() {
             color="#FFF200"
             opacity="0.3"
             display={{ base: "none", lg: "block" }}
-            fontSize="200px"
+            fontSize={{ base: "3xl", lg: "5xl" }}
             position="absolute"
             bottom="0"
-            justifyContent="center"
-            zIndex="1"
+            left="50%"
+            transform="translateX(-50%)"
           >
             Exercise
           </Text>
         </Box>
-        <Flex justify="center" width={{ base: "100%", lg: "50%" }} zIndex={2}>
-          <Image src="/banner.png" alt="banner" className="banner-img" boxSize="100vh" overflow={'hidden'} />
+        <Flex justify="center" width={{ base: "100%", md: "50%" }} zIndex={2}>
+          <Image
+            src="/banner.png"
+            alt="banner"
+            className="banner-img"
+            boxSize={{ base: "auto", lg: "100vh" }}
+            maxWidth="100%"
+            // maxHeight={{ base: "50vh", lg: "100%" }}
+            overflow="hidden"
+          />
         </Flex>
       </Flex>
     </Box>

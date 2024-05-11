@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
 import { Image, Flex, Button, Text } from "@chakra-ui/react";
+import '../styles/Navbar/style.css'
 
 const NavBar = () => {
   const [isActive, setIsActive] = useState(false);
@@ -28,7 +29,7 @@ const NavBar = () => {
     <div className="navbar" style={transparentBackground}>
       <div
         className={`hamburger-menu ${isActive ? "active" : ""}`}
-        onClick={() => setIsActive((prev) => !prev)}
+        onClick={toggleMenu}
       >
         <span className="bar"></span>
         <span className="bar"></span>
