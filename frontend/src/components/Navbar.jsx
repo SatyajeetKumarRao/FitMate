@@ -28,7 +28,7 @@ const NavBar = () => {
     <div className="navbar" style={transparentBackground}>
       <div
         className={`hamburger-menu ${isActive ? "active" : ""}`}
-        onClick={() => setIsActive((prev) => !prev)}
+        onClick={toggleMenu}
       >
         <span className="bar"></span>
         <span className="bar"></span>
