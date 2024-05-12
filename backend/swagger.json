@@ -1,0 +1,183 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+      "title": "User Authentication API",
+      "description": "API for user authentication (login and registration)",
+      "version": "1.0.0"
+    },
+    "servers": [
+      {
+        "url": "http://localhost:8080/"
+      }
+    ],
+    "tags": ["Users"],
+    "paths": {
+      "/users/login": {
+        "post": {
+          "summary": "User login",
+          "tags": ["Authentication"],
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "email": {
+                      "type": "string",
+                      "format": "email",
+                      "example": "user@example.com"
+                    },
+                    "password": {
+                      "type": "string",
+                      "example": "password123"
+                    }
+                  },
+                  "required": ["email", "password"]
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "User logged in successfully",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "accessToken": {
+                        "type": "string",
+                        "description": "JWT access token for authentication"
+                      },
+                      "data": {
+                        "type": "object",
+                        "properties": {
+                          "userId": {
+                            "type": "string",
+                            "description": "User ID"
+                          },
+                          "email": {
+                            "type": "string",
+                            "format": "email",
+                            "description": "User email"
+                          }
+                        }
+                      },
+                      "message": {
+                        "type": "string",
+                        "description": "Success message"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "400": {
+              "description": "Invalid email or password"
+            }
+          }
+        }
+      },
+      "/users/register": {
+        "post": {
+          "summary": "User registration",
+          "tags": ["Authentication"],
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "name": {
+                      "type": "string",
+                      "example": "John Doe"
+                    },
+                    "email": {
+                      "type": "string",
+                      "format": "email",
+                      "example": "user@gmail.com"
+                    },
+                    "password": {
+                      "type": "string",
+                      "example": "123"
+                    },
+                    "height": {
+                      "type": "number",
+                      "example": 170
+                    },
+                    "initialWeight": {
+                      "type": "number",
+                      "example": 75
+                    },
+                    "dob": {
+                      "type": "string",
+                      "format": "date",
+                      "example": "2000-01-01"
+                    },
+                    "gender": {
+                      "type": "string",
+                      "example": "male"
+                    },
+                    "goals": {
+                      "type": "string",
+                      "example": "Weight loss"
+                    }
+                  },
+                  "required": ["name", "email", "password", "height", "initialWeight", "dob", "gender", "goals"]
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "New user has been registered",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "data": {
+                        "type": "object",
+                        "properties": {
+                          "userId": {
+                            "type": "string",
+                            "description": "User ID"
+                          },
+                          "email": {
+                            "type": "string",
+                            "format": "email",
+                            "description": "User email"
+                          }
+                        }
+                      },
+                      "message": {
+                        "type": "string",
+                        "description": "Success message"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "400": {
+              "description": "User already exists"
+            }
+          }
+        }
+      },
+      "/users/*": {
+        "all": {
+          "summary": "Invalid Route",
+          "description": "Handles all invalid routes for users",
+          "responses": {
+            "404": {
+              "description": "Invalid route"
+            }
+          }
+        }
+      }
+    }
+  }
+  

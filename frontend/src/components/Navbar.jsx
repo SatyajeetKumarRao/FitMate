@@ -1,11 +1,24 @@
-import { useState } from "react";
+import React, { useContext, useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { Image, Flex, Button, Text } from "@chakra-ui/react";
 import "../styles/Navbar/style.css";
+import { AuthContext } from "../contexts/AuthContext";
 
 const NavBar = () => {
   const [isActive, setIsActive] = useState(false);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const { auth, setAuth } = useContext(AuthContext);
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    setAuth({
+      isAuth: false,
+      userId: "",
+      email: "",
+      accessToken: "",
+    });
+
+    navigate("/login");
+  };
 
   const listOfLinks = [
     {
@@ -16,9 +29,11 @@ const NavBar = () => {
       to: "/about",
       displayText: "About",
     },
-  ];
-
-  const navigate = useNavigate();
+    auth.isAuth ? {
+      to: "/dashboard",
+      displayText: "Dashboard",
+    } : null
+  ].filter(link => link !== null);
 
   const defaultStyle = {
     color: "white",
@@ -30,14 +45,14 @@ const NavBar = () => {
     fontWeight: "bold",
     marginRight: "20px",
   };
-  const transparentBackground = { backgroundColor: "black", minHeight: "8vh" };
+  const transparentBackground = { backgroundColor: "black", minHeight: "8vh", width : "100%" };
 
   const toggleMenu = () => {
     setIsActive((prev) => !prev);
   };
 
   return (
-    <div className="navbar" style={transparentBackground}>
+    <div className="navbar" style={transparentBackground} >
       <div
         className={`hamburger-menu ${isActive ? "active" : null}`}
         onClick={toggleMenu}
@@ -49,7 +64,7 @@ const NavBar = () => {
       <Flex
         className={`navbar-inner ${isActive ? "active" : null}`}
         align="center"
-        justify="space-between"
+        justifyContent={'space-between'}
         style={transparentBackground}
       >
         <NavLink to={"/"}>
@@ -60,6 +75,7 @@ const NavBar = () => {
               boxSize={"50px"}
               pl={3}
               objectFit={"contain"}
+              onClick={() => {navigate('/login')}}
             />
             <Text
               marginLeft="10px"
@@ -71,7 +87,7 @@ const NavBar = () => {
             </Text>
           </Flex>
         </NavLink>
-        <Flex align="center">
+        <Flex align="center" className="links">
           {listOfLinks.map((link) => (
             <NavLink
               key={link.to}
@@ -83,12 +99,21 @@ const NavBar = () => {
             </NavLink>
           ))}
         </Flex>
-        <div>
-          {isLoggedIn ? (
-            <Button onClick={() => setIsLoggedIn(false)} className="btn">Logout</Button>
+        <div className="btn">
+          {auth .isAuth ? (
+            <Button
+              className="text-btn"
+              onClick={() => {handleLogout()}}
+              backgroundColor={"#fff900"}
+              mr={4}
+              zIndex={3}
+            >
+              Logout
+            </Button>
           ) : (
             <>
               <Button
+              className="text-btn"
                 backgroundColor={"#fff900"}
                 border={"1px solid white"}
                 mr={4}
@@ -101,6 +126,7 @@ const NavBar = () => {
                 Login
               </Button>
               <Button
+              className="text-btn"
                 backgroundColor={"#fff900"}
                 mr={4}
                 zIndex={3}
