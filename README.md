@@ -180,6 +180,42 @@ Snapshot of Website
 
 ## API Endpoints
 
+The deployed server can be used to fetch and sort any data. Further, it can be used to log in and register a user.
+
+API : https://tungabhadra-recursion-038.onrender.com
+
+users
+
+users:
+
+POST https://tungabhadra-recursion-038.onrender.com/users/register - register a new user
+POST https://tungabhadra-recursion-038.onrender.com/users/login- log in as an existing user
+POST https://tungabhadra-recursion-038.onrender.com/users/logout- logout user
+GET https://tungabhadra-recursion-038.onrender.com/users/user - retrieve user by their userId. UserId will be taken from access token.
+PATCH https://tungabhadra-recursion-038.onrender.com/users/updateProfile - update details of user
+
+meals:
+
+GET https://tungabhadra-recursion-038.onrender.com/meals - Get meal data
+POST https://tungabhadra-recursion-038.onrender.com/meals/addMeal - Add meal data 
+
+exercises:
+
+GET https://tungabhadra-recursion-038.onrender.com/exercises/search - Get exercise data from search
+
+foods:
+
+GET https://tungabhadra-recursion-038.onrender.com/foods/search - Get food data from search
+
+workouts:
+
+GET https://tungabhadra-recursion-038.onrender.com/workouts - Get workout data
+POST https://tungabhadra-recursion-038.onrender.com/workouts/addWorkout - Add workout data
+
+apiDocs:
+
+GET https://tungabhadra-recursion-038.onrender.com/apiDocs - API Documentation
+
 ## Technology Stack
 
 List and provide a brief overview of the technologies used in the project.
