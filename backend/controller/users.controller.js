@@ -2,7 +2,11 @@ require("dotenv").config();
 const bcrypt = require("bcrypt");
 var jwt = require("jsonwebtoken");
 const { User } = require("../models/users.model");
-// const { BlacklistToken } = require("../models/blacklistToken.model");
+const { BlacklistToken } = require("../models/blacklistToken.model");
+const {
+  TdeeCalculator,
+  TargetTdeeCalculator,
+} = require("../utils/TdeeCalculator");
 
 const saltRounds = 10;
 
@@ -71,6 +75,16 @@ const userRegister = async (req, res) => {
         throw new Error(err);
       }
 
+      const TDEE = TdeeCalculator({
+        gender,
+        weight: initialWeight,
+        height,
+        dob,
+        activityLevel: goals.activityLevel,
+      });
+
+      const targetTdee = TargetTdeeCalculator({ goal: goals.goal, TDEE });
+
       const user = new User({
         name,
         email,
@@ -81,6 +95,8 @@ const userRegister = async (req, res) => {
         dob,
         gender,
         goals,
+        tdee: TDEE,
+        targetTdee: targetTdee,
         friends: [],
         cumulativeNetCalories: 0,
       });
@@ -130,73 +146,70 @@ const userRegister = async (req, res) => {
 //   }
 // };
 
-// const getUserById = async (req, res) => {
-//   try {
-//     const { id } = req.params;
+const getUserById = async (req, res) => {
+  try {
+    const id = req.userId;
 
-//     const userData = await User.findById(id, { password: 0 });
+    const userData = await User.findById(id, { password: 0 });
 
-//     if (!userData) {
-//       return res
-//         .status(404)
-//         .json({ error: true, message: `User with Id : ${id} doesn't exists.` });
-//     }
+    if (!userData) {
+      return res
+        .status(404)
+        .json({ error: true, message: `User with Id : ${id} doesn't exists.` });
+    }
 
-//     return res.status(200).json({
-//       error: false,
-//       data: userData,
-//       message: "User get by id route",
-//     });
-//   } catch (error) {
-//     console.log(error.message);
-//     return res.status(400).json({ error: true, message: error.message });
-//   }
-// };
+    return res.status(200).json({
+      data: userData,
+    });
+  } catch (error) {
+    console.log(error.message);
+    return res.status(400).json({ error: true, message: error.message });
+  }
+};
 
-// const updateUser = async (req, res) => {
-//   try {
-//     const { id } = req.params;
+const updateUser = async (req, res) => {
+  try {
+    const id = req.userId;
 
-//     const updateData = req.body;
+    const { height, currentWeight, goals } = req.body;
 
-//     const userData = await User.findById(id, { password: 0 });
+    const userData = await User.findById(id, { password: 0 });
 
-//     if (!userData) {
-//       return res.status(404).json({
-//         error: true,
-//         message: `User with Id : ${id} doesn't exists.`,
-//       });
-//     }
+    if (!userData) {
+      return res.status(404).json({
+        error: true,
+        message: `User with Id : ${id} doesn't exists.`,
+      });
+    }
 
-//     const updateObjectArray = Object.keys(updateData)
-//       .filter((updateKey) => {
-//         return updateKey != "email" && updateKey != "id";
-//       })
-//       .map((updateKey) => {
-//         if (updateKey != "email" && updateKey != "id") {
-//           return { [updateKey]: updateData[updateKey] };
-//         }
-//       });
+    const TDEE = TdeeCalculator({
+      gender: userData.gender,
+      weight: currentWeight,
+      height,
+      dob: userData.dob,
+      activityLevel: goals.activityLevel,
+    });
 
-//     const updateObject = updateObjectArray.reduce((acc, obj) => {
-//       return { ...acc, ...obj };
-//     }, {});
+    const targetTdee = TargetTdeeCalculator({ goal: goals.goal, TDEE });
 
-//     const updatedUserData = await User.findByIdAndUpdate(id, updateObject, {
-//       new: true,
-//       upsert: true,
-//     });
+    const updatedUserData = await User.findByIdAndUpdate(
+      id,
+      { height, goals, currentWeight, tdee: TDEE, targetTdee: targetTdee },
+      {
+        new: true,
+        upsert: true,
+      }
+    );
 
-//     return res.status(200).json({
-//       error: false,
-//       data: updatedUserData,
-//       message: `User with Id :${id} has been updated`,
-//     });
-//   } catch (error) {
-//     console.log(error.message);
-//     return res.status(400).json({ error: true, message: error.message });
-//   }
-// };
+    return res.status(200).json({
+      data: updatedUserData,
+      message: `User with Id :${id} has been updated`,
+    });
+  } catch (error) {
+    console.log(error.message);
+    return res.status(400).json({ error: true, message: error.message });
+  }
+};
 
 // const deleteUser = async (req, res) => {
 //   try {
@@ -253,8 +266,8 @@ module.exports = {
   userLogin,
   userRegister,
   // getUsers,
-  // getUserById,
-  // updateUser,
+  getUserById,
+  updateUser,
   // deleteUser,
   // logoutUser,
 };

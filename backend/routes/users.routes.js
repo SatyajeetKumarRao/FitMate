@@ -3,15 +3,15 @@ const express = require("express");
 const {
   validateLogin,
   validateRegister,
-  // authenticateUser,
+  authenticateUser,
   // authorizeUser,
 } = require("../middleware/users.middleware");
 const {
   userLogin,
   userRegister,
   // getUsers,
-  // getUserById,
-  // updateUser,
+  getUserById,
+  updateUser,
   // deleteUser,
   // logoutUser,
 } = require("../controller/users.controller");
@@ -24,15 +24,13 @@ usersRouter.post("/register", validateRegister, userRegister);
 
 // usersRouter.get("/user", authenticateUser, getUsers);
 
-// usersRouter.get("/user/:id", authenticateUser, getUserById);
+usersRouter.get("/user", authenticateUser, getUserById);
 
-// usersRouter.patch("/user/:id", authenticateUser, authorizeUser, updateUser);
+usersRouter.patch("/updateProfile", authenticateUser, updateUser);
 
 // usersRouter.delete("/user/:id", authenticateUser, authorizeUser, deleteUser);
 
 // usersRouter.post("/logout", logoutUser);
-
-
 
 usersRouter.all("*", (req, res) => {
   return res.status(404).json({ message: "404 Invalid Route" });
