@@ -48,12 +48,15 @@ const UserDashboard = () => {
   const [addNewFood, setAddNewFood] = useState([]);
 
   const fetchSearchMeal = () => {
-    fetch(`http://localhost:3000/foods/search/?name=${searchMeal}`, {
-      headers: {
-        "content-type": "application/json",
-        authorization: auth.accessToken,
-      },
-    })
+    fetch(
+      `https://tungabhadra-recursion-038.onrender.com/foods/search/?name=${searchMeal}`,
+      {
+        headers: {
+          "content-type": "application/json",
+          authorization: auth.accessToken,
+        },
+      }
+    )
       .then((response) => response.json())
       .then((responseData) => setFetchedFood(responseData.data))
       .catch((error) => console.log(error));
@@ -66,7 +69,7 @@ const UserDashboard = () => {
 
     console.log(newData);
 
-    fetch("http://localhost:3000/meals/addMeal", {
+    fetch("https://tungabhadra-recursion-038.onrender.com/meals/addMeal", {
       method: "POST",
       headers: {
         "content-type": "application/json",
