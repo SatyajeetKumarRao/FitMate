@@ -5,6 +5,7 @@ const { connectDB } = require("./utils/db.config");
 
 const { usersRouter } = require("./routes/users.routes");
 const { mealsRouter } = require("./routes/meals.routes");
+const { foodRouter } = require("./routes/food.routes");
 
 const swaggerUI = require("swagger-ui-express");
 const swaggerDocument = require("./swagger.json");
@@ -26,6 +27,8 @@ app.use("/users", usersRouter);
 
 app.use("/meals", mealsRouter);
 app.use("/apiDocs", swaggerUI.serve, swaggerUI.setup(swaggerDocument));
+
+app.use("/foods", foodRouter);
 
 app.all("*", (req, res) => {
   try {
