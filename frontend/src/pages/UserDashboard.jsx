@@ -50,7 +50,20 @@ const UserDashboard = () => {
   const [addNewFood, setAddNewFood] = useState([]);
   const [addNewExercise, setAddNewExercise] = useState([]);
 
-  useEffect(() => {}, []);
+  useEffect(() => {
+    fetch("https://tungabhadra-recursion-038.onrender.com/dailyLog/", {
+      headers: {
+        Authorization: `Bearer ${auth.accessToken}`,
+      },
+    })
+      .then((response) => response.json())
+      .then((responseData) => {
+        console.log(responseData);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, []);
 
   const fetchSearchMeal = () => {
     fetch(

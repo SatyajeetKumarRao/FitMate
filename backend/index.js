@@ -11,6 +11,7 @@ const swaggerUI = require("swagger-ui-express");
 const swaggerDocument = require("./swagger.json");
 const { exerciseRouter } = require("./routes/exercises.routes");
 const { workoutRouter } = require("./routes/workouts.routes");
+const { dailyLogRouter } = require("./routes/dailyLogs.routes");
 
 const app = express();
 
@@ -34,6 +35,8 @@ app.use("/exercises", exerciseRouter);
 app.use("/foods", foodRouter);
 
 app.use("/workouts", workoutRouter);
+
+app.use("/dailyLog", dailyLogRouter);
 
 app.use("/apiDocs", swaggerUI.serve, swaggerUI.setup(swaggerDocument));
 

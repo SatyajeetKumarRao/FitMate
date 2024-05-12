@@ -2,6 +2,7 @@ const express = require("express");
 
 const { authenticateUser } = require("../middleware/users.middleware");
 const { Workout } = require("../models/Workouts.model");
+const { DailyLog } = require("../models/DailyLogs.model");
 
 const workoutRouter = express.Router();
 
