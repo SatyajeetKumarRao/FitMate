@@ -5,7 +5,7 @@ const { authenticateUser } = require("../middleware/users.middleware");
 const mealsRouter = express.Router();
 
 const todayDate = () => {
-  new Date().toISOString().split("T")[0];
+  return new Date().toISOString().split("T")[0];
 };
 
 mealsRouter.post("/addMeal", authenticateUser, async (req, res) => {
@@ -26,7 +26,7 @@ mealsRouter.post("/addMeal", authenticateUser, async (req, res) => {
       const updateMeal = await Meal.findByIdAndUpdate(
         meal._id,
         {
-          foods: reqData,
+          foods: [...meal.foods, ...reqData],
         },
         {
           new: true,
