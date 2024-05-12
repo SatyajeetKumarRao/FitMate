@@ -1,15 +1,11 @@
 const express = require("express");
 
-const { authenticateUser } = require("../middleware/users.middleware");
 const { Food } = require("../models/Foods.model");
+const { authenticateUser } = require("../middleware/users.middleware");
 
 const foodRouter = express.Router();
 
-const todayDate = () => {
-  new Date().toISOString().split("T")[0];
-};
-
-foodRouter.get("/search", async (req, res) => {
+foodRouter.get("/search", authenticateUser, async (req, res) => {
   try {
     const { name } = req.query;
 

@@ -1,6 +1,6 @@
 .goalCard {
   .parent {
-    width: 300px;
+    width: 280px;
     padding: 20px;
     perspective: 1000px;
   }
@@ -113,7 +113,7 @@
     --primary-clr: #4b4a37;
     --dot-clr: #bbc0ff;
     --play: hsl(195, 87%, 42%);
-    width: 300px;
+    width: 280px;
     height: 292px;
     padding: 20px;
     border-radius: 20px;

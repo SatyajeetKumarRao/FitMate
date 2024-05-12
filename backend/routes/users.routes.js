@@ -13,7 +13,7 @@ const {
   getUserById,
   updateUser,
   // deleteUser,
-  // logoutUser,
+  logoutUser,
 } = require("../controller/users.controller");
 
 const usersRouter = express.Router();
@@ -30,10 +30,10 @@ usersRouter.patch("/updateProfile", authenticateUser, updateUser);
 
 // usersRouter.delete("/user/:id", authenticateUser, authorizeUser, deleteUser);
 
-// usersRouter.post("/logout", logoutUser);
+usersRouter.post("/logout", logoutUser);
 
 usersRouter.all("*", (req, res) => {
-  return res.status(404).json({ message: "404 Invalid Route" });
+  return res.status(404).json({ error: true, message: "404 Invalid Route" });
 });
 
 module.exports = { usersRouter };

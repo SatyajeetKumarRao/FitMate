@@ -17,6 +17,7 @@ import {
   Input,
   useDisclosure,
   IconButton,
+  useToast,
 } from "@chakra-ui/react";
 import "../styles/fonts/material-design-iconic-font/css/material-design-iconic-font.min.css";
 
@@ -34,7 +35,7 @@ import { AuthContext } from "../contexts/AuthContext";
 const UserDashboard = () => {
   const mealModal = useDisclosure();
   const workoutModal = useDisclosure();
-
+  const toast = useToast();
   const initialRef = useRef(null);
   const finalRef = useRef(null);
 
@@ -44,22 +45,33 @@ const UserDashboard = () => {
   const [searchWorkout, setSearchWorkout] = useState("");
 
   const [fetchedFood, setFetchedFood] = useState(null);
+  const [fetchedExercises, setFetchedExercises] = useState(null);
 
   const [addNewFood, setAddNewFood] = useState([]);
+  const [addNewExercise, setAddNewExercise] = useState([]);
 
   const fetchSearchMeal = () => {
     fetch(
       `https://tungabhadra-recursion-038.onrender.com/foods/search/?name=${searchMeal}`,
       {
         headers: {
-          "content-type": "application/json",
-          authorization: auth.accessToken,
+          "Content-type": "application/json",
+          Authorization: `Bearer ${auth.accessToken}`,
         },
       }
     )
       .then((response) => response.json())
       .then((responseData) => setFetchedFood(responseData.data))
-      .catch((error) => console.log(error));
+      .catch((error) => {
+        console.log(error);
+        toast({
+          title: error,
+          status: "error",
+          duration: 5000,
+          position: "top-right",
+          isClosable: true,
+        });
+      });
   };
 
   const addSelectedFoodToDB = () => {
@@ -67,23 +79,105 @@ const UserDashboard = () => {
       return { food: foods.food, quantity: foods.quantity };
     });
 
-    console.log(newData);
-
     fetch("https://tungabhadra-recursion-038.onrender.com/meals/addMeal", {
       method: "POST",
       headers: {
-        "content-type": "application/json",
-        authorization: auth.accessToken,
+        "Content-type": "application/json",
+        Authorization: `Bearer ${auth.accessToken}`,
       },
       body: JSON.stringify(newData),
     })
       .then((response) => response.json())
-      .then((responseData) => console.log(responseData))
-      .catch((error) => console.log(error));
+      .then((responseData) => {
+        console.log(responseData);
+        toast({
+          title: responseData.message,
+          status: "success",
+          duration: 5000,
+          position: "top-right",
+          isClosable: true,
+        });
+
+        setAddNewFood([]);
+
+        mealModal.onClose();
+      })
+      .catch((error) => {
+        console.log(error);
+        toast({
+          title: error,
+          status: "error",
+          duration: 5000,
+          position: "top-right",
+          isClosable: true,
+        });
+      });
+  };
+
+  const addSelectedExerciseToDB = () => {
+    const newData = addNewExercise.map((exercise) => {
+      return { exercise: exercise.exercise, duration: exercise.duration };
+    });
+
+    fetch(
+      "https://tungabhadra-recursion-038.onrender.com/workouts/addWorkout",
+      {
+        method: "POST",
+        headers: {
+          "Content-type": "application/json",
+          Authorization: `Bearer ${auth.accessToken}`,
+        },
+        body: JSON.stringify(newData),
+      }
+    )
+      .then((response) => response.json())
+      .then((responseData) => {
+        console.log(responseData);
+        toast({
+          title: responseData.message,
+          status: "success",
+          duration: 5000,
+          position: "top-right",
+          isClosable: true,
+        });
+
+        setAddNewExercise([]);
+        workoutModal.onClose();
+      })
+      .catch((error) => {
+        console.log(error);
+        toast({
+          title: error,
+          status: "error",
+          duration: 5000,
+          position: "top-right",
+          isClosable: true,
+        });
+      });
   };
 
   const fetchSearchWorkout = () => {
-    console.log(searchWorkout);
+    fetch(
+      `https://tungabhadra-recursion-038.onrender.com/exercises/search/?name=${searchWorkout}`,
+      {
+        headers: {
+          "Content-type": "application/json",
+          Authorization: `Bearer ${auth.accessToken}`,
+        },
+      }
+    )
+      .then((response) => response.json())
+      .then((responseData) => setFetchedExercises(responseData.data))
+      .catch((error) => {
+        console.log(error);
+        toast({
+          title: error,
+          status: "error",
+          duration: 5000,
+          position: "top-right",
+          isClosable: true,
+        });
+      });
   };
 
   return (
@@ -94,8 +188,7 @@ const UserDashboard = () => {
           style={{
             display: "flex",
             flexWrap: "wrap",
-            gap: "30px",
-            justifyContent: "space-evenly",
+            gap: "20px",
             alignItems: "center",
           }}
         >
@@ -500,10 +593,155 @@ const UserDashboard = () => {
                   />
                 </Box>
               </FormControl>
+
+              <div>
+                {addNewExercise.length > 0 && (
+                  <p style={{ fontWeight: "500", marginTop: "10px" }}>
+                    Added Exercise
+                  </p>
+                )}
+
+                {addNewExercise.length > 0 &&
+                  addNewExercise.map((item) => {
+                    return (
+                      <p
+                        key={item.exercise}
+                        style={{ fontSize: " 14px", padding: "3px 0px" }}
+                      >
+                        <button
+                          onClick={() => {
+                            const exerciseId = item.exercise;
+
+                            const newExercise = addNewExercise.filter(
+                              (exerciseItem) => {
+                                return exerciseItem.exercise != exerciseId;
+                              }
+                            );
+
+                            setAddNewExercise([...newExercise]);
+                          }}
+                        >
+                          <i className="zmdi zmdi-close-circle"> </i>{" "}
+                          &nbsp;&nbsp;&nbsp;
+                        </button>
+                        {item.name} : Duration {item.duration}
+                      </p>
+                    );
+                  })}
+              </div>
+
+              <div
+                style={{
+                  display: "flex",
+                  flexWrap: "wrap",
+                  gap: "20px",
+                  marginTop: "20px",
+                }}
+              >
+                {fetchedExercises &&
+                  fetchedExercises.map((exercise) => {
+                    return (
+                      <div
+                        key={exercise._id}
+                        style={{
+                          width: "100%",
+                          maxWidth: "300px",
+                          boxShadow:
+                            "rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px",
+                          borderRadius: "10px",
+                          padding: "10px",
+                          boxSizing: "border-box",
+                        }}
+                      >
+                        <p
+                          style={{
+                            fontSize: "20px",
+                            fontWeight: "bold",
+                            margin: "5px 0px",
+                          }}
+                        >
+                          {exercise.name}
+                        </p>
+
+                        <div
+                          style={{
+                            display: "flex",
+                            justifyContent: "space-between",
+                            alignItems: "center",
+                          }}
+                        >
+                          <p>Type : {exercise.type}</p>
+                          <p style={{}}>
+                            Calories Burned: {exercise.caloriesBurnedPerMinute}{" "}
+                            cal
+                          </p>
+                        </div>
+
+                        <div
+                          style={{
+                            display: "flex ",
+                            justifyContent: "space-between",
+                            alignItems: "center",
+                          }}
+                        >
+                          {/* <div>
+                            <p style={{}}>
+                              Calories Burned:{" "}
+                              {exercise.caloriesBurnedPerMinute} cal
+                            </p>
+                          </div> */}
+                          <div style={{ display: "flex", gap: "10px" }}>
+                            <span>Duration (in min)</span>
+                            <input
+                              type="number"
+                              name=""
+                              id=""
+                              defaultValue={0}
+                              style={{
+                                width: "70px",
+                                border: "1px solid #818181",
+                                borderRadius: "5px",
+                                min: 1,
+                              }}
+                              onChange={(e) => {
+                                if (e.target.value >= 0) {
+                                  const exerciseId = exercise._id;
+
+                                  const newExercise = addNewExercise.filter(
+                                    (item) => {
+                                      return item.exercise != exerciseId;
+                                    }
+                                  );
+
+                                  if (e.target.value > 0) {
+                                    setAddNewExercise([
+                                      ...newExercise,
+                                      {
+                                        exercise: exerciseId,
+                                        name: exercise.name,
+                                        duration: e.target.value,
+                                      },
+                                    ]);
+                                  } else {
+                                    setAddNewExercise([...newExercise]);
+                                  }
+                                }
+                              }}
+                            />
+                          </div>
+                        </div>
+                      </div>
+                    );
+                  })}
+              </div>
             </ModalBody>
 
             <ModalFooter>
-              <Button colorScheme="blue" mr={3}>
+              <Button
+                colorScheme="blue"
+                mr={3}
+                onClick={addSelectedExerciseToDB}
+              >
                 Save
               </Button>
               <Button onClick={workoutModal.onClose}>Cancel</Button>

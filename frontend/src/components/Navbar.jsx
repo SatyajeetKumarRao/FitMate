@@ -1,6 +1,6 @@
-import React, { useContext, useState } from "react";
+import { useContext, useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
-import { Image, Flex, Button, Text } from "@chakra-ui/react";
+import { Image, Flex, Button, Text, useToast } from "@chakra-ui/react";
 import "../styles/Navbar/style.css";
 import { AuthContext } from "../contexts/AuthContext";
 
@@ -8,16 +8,56 @@ const NavBar = () => {
   const [isActive, setIsActive] = useState(false);
   const { auth, setAuth } = useContext(AuthContext);
   const navigate = useNavigate();
+  const toast = useToast();
 
   const handleLogout = () => {
-    setAuth({
-      isAuth: false,
-      userId: "",
-      email: "",
-      accessToken: "",
-    });
+    fetch("https://tungabhadra-recursion-038.onrender.com/users/logout", {
+      method: "POST",
+      headers: {
+        "Content-type": "application/json",
+        Authorization: `Bearer ${auth.accessToken}`,
+      },
+    })
+      .then((response) => response.json())
+      .then((responseData) => {
+        console.log(responseData);
 
-    navigate("/login");
+        if (!responseData.error) {
+          toast({
+            title: responseData.message,
+            status: "success",
+            duration: 5000,
+            position: "top-right",
+            isClosable: true,
+          });
+
+          setAuth({
+            isAuth: false,
+            userId: "",
+            email: "",
+            accessToken: "",
+          });
+
+          localStorage.removeItem("accessToken");
+          localStorage.removeItem("userId");
+          localStorage.removeItem("email");
+
+          navigate("/");
+        } else {
+          throw new Error(responseData.message);
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+
+        toast({
+          title: error,
+          status: "error",
+          duration: 5000,
+          position: "top-right",
+          isClosable: true,
+        });
+      });
   };
 
   const listOfLinks = [
@@ -29,11 +69,13 @@ const NavBar = () => {
       to: "/about",
       displayText: "About",
     },
-    auth.isAuth ? {
-      to: "/dashboard",
-      displayText: "Dashboard",
-    } : null
-  ].filter(link => link !== null);
+    auth.isAuth
+      ? {
+          to: "/dashboard",
+          displayText: "Dashboard",
+        }
+      : null,
+  ].filter((link) => link !== null);
 
   const defaultStyle = {
     color: "white",
@@ -45,14 +87,18 @@ const NavBar = () => {
     fontWeight: "bold",
     marginRight: "20px",
   };
-  const transparentBackground = { backgroundColor: "black", minHeight: "8vh", width : "100%" };
+  const transparentBackground = {
+    backgroundColor: "black",
+    minHeight: "8vh",
+    width: "100%",
+  };
 
   const toggleMenu = () => {
     setIsActive((prev) => !prev);
   };
 
   return (
-    <div className="navbar" style={transparentBackground} >
+    <div className="navbar" style={transparentBackground}>
       <div
         className={`hamburger-menu ${isActive ? "active" : null}`}
         onClick={toggleMenu}
@@ -64,7 +110,7 @@ const NavBar = () => {
       <Flex
         className={`navbar-inner ${isActive ? "active" : null}`}
         align="center"
-        justifyContent={'space-between'}
+        justifyContent={"space-between"}
         style={transparentBackground}
       >
         <NavLink to={"/"}>
@@ -75,7 +121,9 @@ const NavBar = () => {
               boxSize={"50px"}
               pl={3}
               objectFit={"contain"}
-              onClick={() => {navigate('/login')}}
+              onClick={() => {
+                navigate("/login");
+              }}
             />
             <Text
               marginLeft="10px"
@@ -100,10 +148,12 @@ const NavBar = () => {
           ))}
         </Flex>
         <div className="btn">
-          {auth .isAuth ? (
+          {auth.isAuth ? (
             <Button
               className="text-btn"
-              onClick={() => {handleLogout()}}
+              onClick={() => {
+                handleLogout();
+              }}
               backgroundColor={"#fff900"}
               mr={4}
               zIndex={3}
@@ -113,7 +163,7 @@ const NavBar = () => {
           ) : (
             <>
               <Button
-              className="text-btn"
+                className="text-btn"
                 backgroundColor={"#fff900"}
                 border={"1px solid white"}
                 mr={4}
@@ -126,7 +176,7 @@ const NavBar = () => {
                 Login
               </Button>
               <Button
-              className="text-btn"
+                className="text-btn"
                 backgroundColor={"#fff900"}
                 mr={4}
                 zIndex={3}

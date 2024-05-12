@@ -3,16 +3,22 @@ import { useEffect, useState } from "react";
 
 export function Home() {
   const [randomText, setRandomText] = useState("");
-  const textOptions = ["Exercise", "Workout", "Fitness", "Training", "Activity"];
+  const textOptions = [
+    "Exercise",
+    "Workout",
+    "Fitness",
+    "Training",
+    "Activity",
+  ];
   const getRandomText = () => {
     const randomIndex = Math.floor(Math.random() * textOptions.length);
     return textOptions[randomIndex];
-  }
+  };
 
   useEffect(() => {
     setRandomText(getRandomText());
-  }, [])
-  
+  }, []);
+
   return (
     <Box
       bgGradient="linear(to-tr, #595732, #3f3f3a)"
