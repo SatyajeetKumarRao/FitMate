@@ -1,5 +1,4 @@
-import NavBar from "../components/Navbar";
-import { Box, Heading, SimpleGrid } from "@chakra-ui/react";
+import { Box, SimpleGrid } from "@chakra-ui/react";
 import { Chart } from "react-google-charts";
 
 const newDataObject = {
@@ -33,11 +32,10 @@ const UserDashboard = () => {
       minH="100vh"
       color="white"
     >
-      <NavBar />
-      <Box mt="16px">
-        <Heading as="h4" size="lg" color="white" pl="10">
+      <Box>
+        {/* <Heading as="h4" size="lg" color="white" pl="10">
           Dashboard
-        </Heading>
+        </Heading> */}
         <SimpleGrid
           columns={{ sm: 2, md: 3 }}
           spacing="8"
@@ -82,4 +80,4 @@ const UserDashboard = () => {
   );
 };
 
-export default UserDashboard;
+export { UserDashboard };

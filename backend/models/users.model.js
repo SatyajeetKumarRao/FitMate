@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 
 const userSchema = new mongoose.Schema(
   {
-    name: { type: String, required: true, unique: true },
+    name: { type: String, required: true },
     email: { type: String, required: true, unique: true },
     password: { type: String, required: true },
     height: { type: Number, required: true },
@@ -14,10 +14,12 @@ const userSchema = new mongoose.Schema(
       targetWeight: { type: Number, required: true },
       goal: {
         type: String,
+        required: true,
         enum: ["Lose weight", "Maintain weight", "Gain weight"],
       },
       activityLevel: {
         type: String,
+        required: true,
         enum: [
           "Sedentary",
           "Lightly Active",
@@ -26,6 +28,8 @@ const userSchema = new mongoose.Schema(
         ],
       },
     },
+    tdee: { type: Number, default: 0, required: true },
+    targetTdee: { type: Number, default: 0, required: true },
     friends: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
     cumulativeNetCalories: { type: Number, default: 0 },
   },

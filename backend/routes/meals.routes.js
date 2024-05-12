@@ -8,7 +8,7 @@ const todayDate = () => {
   new Date().toISOString().split("T")[0];
 };
 
-mealsRouter.post("/", authenticateUser, async (req, res) => {
+mealsRouter.post("/addMeal", authenticateUser, async (req, res) => {
   try {
     const reqData = req.body;
 
@@ -20,7 +20,6 @@ mealsRouter.post("/", authenticateUser, async (req, res) => {
         date: todayDate(),
         foods: reqData,
       });
-
       await newMeal.save();
       return res.status(201).json({ message: "New Meal Added", data: newMeal });
     } else {
