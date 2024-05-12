@@ -25,7 +25,7 @@ app.get("/", (req, res) => {
 app.use("/users", usersRouter);
 
 app.use("/meals", mealsRouter);
-app.use("/", swaggerUI.serve, swaggerUI.setup(swaggerDocument));
+app.use("/apiDocs", swaggerUI.serve, swaggerUI.setup(swaggerDocument));
 
 app.all("*", (req, res) => {
   try {
