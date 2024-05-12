@@ -25,6 +25,26 @@ workoutRouter.post("/addWorkout", authenticateUser, async (req, res) => {
         exercises: reqData,
       });
       await newWorkout.save();
+
+      const dailyLogs = await DailyLog.findOne({
+        date: todayDate(),
+        user: req.userId,
+      });
+
+      if (!dailyLogs) {
+        const newDailyLogs = new Meal({
+          user: req.userId,
+          date: todayDate(),
+          workouts: newWorkout._id,
+        });
+        await newDailyLogs.save();
+      } else {
+        const updateDailyLogs = await DailyLog.findByIdAndUpdate(
+          dailyLogs._id,
+          { workouts: newWorkout._id }
+        );
+      }
+
       return res
         .status(201)
         .json({ message: "New Workout Added", data: newWorkout });

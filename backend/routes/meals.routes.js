@@ -1,6 +1,7 @@
 const express = require("express");
 const { Meal } = require("../models/Meals.model");
 const { authenticateUser } = require("../middleware/users.middleware");
+const { DailyLog } = require("../models/DailyLogs.model");
 
 const mealsRouter = express.Router();
 
@@ -21,6 +22,26 @@ mealsRouter.post("/addMeal", authenticateUser, async (req, res) => {
         foods: reqData,
       });
       await newMeal.save();
+
+      const dailyLogs = await DailyLog.findOne({
+        date: todayDate(),
+        user: req.userId,
+      });
+
+      if (!dailyLogs) {
+        const newDailyLogs = new Meal({
+          user: req.userId,
+          date: todayDate(),
+          meals: newMeal._id,
+        });
+        await newDailyLogs.save();
+      } else {
+        const updateDailyLogs = await DailyLog.findByIdAndUpdate(
+          dailyLogs._id,
+          { meals: newMeal._id }
+        );
+      }
+
       return res.status(201).json({ message: "New Meal Added", data: newMeal });
     } else {
       const updateMeal = await Meal.findByIdAndUpdate(
