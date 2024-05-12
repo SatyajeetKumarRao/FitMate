@@ -8,7 +8,7 @@ const userSchema = new mongoose.Schema(
     height: { type: Number, required: true },
     initialWeight: { type: Number, required: true },
     currentWeight: { type: Number, required: true },
-    dob: { type: Date, required: true },
+    dob: { type: String, required: true },
     gender: { type: String, required: true, enum: ["male", "female"] },
     goals: {
       targetWeight: { type: Number, required: true },

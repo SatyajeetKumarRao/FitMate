@@ -6,6 +6,7 @@ const { DailyLog } = require("../models/DailyLogs.model");
 const mealsRouter = express.Router();
 
 const todayDate = () => {
+  console.log(Date.now());
   return new Date().toISOString().split("T")[0];
 };
 
@@ -41,7 +42,6 @@ mealsRouter.post("/addMeal", authenticateUser, async (req, res) => {
           { meals: newMeal._id }
         );
       }
-
       return res.status(201).json({ message: "New Meal Added", data: newMeal });
     } else {
       const updateMeal = await Meal.findByIdAndUpdate(
