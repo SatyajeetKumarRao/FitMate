@@ -29,7 +29,7 @@ import food from "../styles/images/food.png";
 import workout from "../styles/images/workout.png";
 import net from "../styles/images/net calories.png";
 import balance from "../styles/images/balance.png";
-import { useContext, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { AuthContext } from "../contexts/AuthContext";
 
 const UserDashboard = () => {
@@ -49,6 +49,8 @@ const UserDashboard = () => {
 
   const [addNewFood, setAddNewFood] = useState([]);
   const [addNewExercise, setAddNewExercise] = useState([]);
+
+  useEffect(() => {}, []);
 
   const fetchSearchMeal = () => {
     fetch(
@@ -463,7 +465,7 @@ const UserDashboard = () => {
                         key={food._id}
                         style={{
                           width: "100%",
-                          maxWidth: "350px",
+                          maxWidth: "330px",
                           boxShadow:
                             "rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px",
                           borderRadius: "10px",
@@ -645,7 +647,7 @@ const UserDashboard = () => {
                         key={exercise._id}
                         style={{
                           width: "100%",
-                          maxWidth: "300px",
+                          maxWidth: "330px",
                           boxShadow:
                             "rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px",
                           borderRadius: "10px",

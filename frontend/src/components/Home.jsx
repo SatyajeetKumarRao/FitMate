@@ -65,7 +65,7 @@ export function Home() {
         <Flex
           justify={{ base: "center", xl: "end" }}
           width={{ base: "100%", md: "50%" }}
-          zIndex={2}
+          // zIndex={2}
         >
           <Image
             src="/banner.png"
