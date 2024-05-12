@@ -29,7 +29,7 @@ mealsRouter.post("/addMeal", authenticateUser, async (req, res) => {
       });
 
       if (!dailyLogs) {
-        const newDailyLogs = new Meal({
+        const newDailyLogs = new DailyLog({
           user: req.userId,
           date: todayDate(),
           meals: newMeal._id,

@@ -32,7 +32,7 @@ workoutRouter.post("/addWorkout", authenticateUser, async (req, res) => {
       });
 
       if (!dailyLogs) {
-        const newDailyLogs = new Meal({
+        const newDailyLogs = new DailyLog({
           user: req.userId,
           date: todayDate(),
           workouts: newWorkout._id,
