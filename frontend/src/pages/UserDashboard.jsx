@@ -17,6 +17,7 @@ import {
   Input,
   useDisclosure,
   IconButton,
+  useToast,
 } from "@chakra-ui/react";
 import "../styles/fonts/material-design-iconic-font/css/material-design-iconic-font.min.css";
 
@@ -34,7 +35,7 @@ import { AuthContext } from "../contexts/AuthContext";
 const UserDashboard = () => {
   const mealModal = useDisclosure();
   const workoutModal = useDisclosure();
-
+  const toast = useToast();
   const initialRef = useRef(null);
   const finalRef = useRef(null);
 
@@ -58,7 +59,16 @@ const UserDashboard = () => {
     })
       .then((response) => response.json())
       .then((responseData) => setFetchedFood(responseData.data))
-      .catch((error) => console.log(error));
+      .catch((error) => {
+        console.log(error)
+        toast({
+          title: error,
+          status: "error",
+          duration: 5000,
+          position: "top-right",
+          isClosable: true,
+        });
+      });
   };
 
   const addSelectedFoodToDB = () => {
@@ -75,8 +85,27 @@ const UserDashboard = () => {
       body: JSON.stringify(newData),
     })
       .then((response) => response.json())
-      .then((responseData) => console.log(responseData))
-      .catch((error) => console.log(error));
+      .then((responseData) => {
+        console.log(responseData);
+        toast({
+          title: responseData.message,
+          status: "success",
+          duration: 5000,
+          position: "top-right",
+          isClosable: true,
+        });
+        mealModal.onClose();
+      })
+      .catch((error) => {
+        console.log(error);
+        toast({
+          title: error,
+          status: "error",
+          duration: 5000,
+          position: "top-right",
+          isClosable: true,
+        });
+      });
   };
 
   const addSelectedExerciseToDB = () => {
@@ -93,8 +122,27 @@ const UserDashboard = () => {
       body: JSON.stringify(newData),
     })
       .then((response) => response.json())
-      .then((responseData) => console.log(responseData))
-      .catch((error) => console.log(error));
+      .then((responseData) => {
+        console.log(responseData);
+        toast({
+          title: responseData.message,
+          status: "success",
+          duration: 5000,
+          position: "top-right",
+          isClosable: true,
+        });
+        workoutModal.onClose();
+      })
+      .catch((error) => {
+        console.log(error);
+        toast({
+          title: error,
+          status: "error",
+          duration: 5000,
+          position: "top-right",
+          isClosable: true,
+        });
+      });
   };
 
   const fetchSearchWorkout = () => {
@@ -106,7 +154,16 @@ const UserDashboard = () => {
     })
       .then((response) => response.json())
       .then((responseData) => setFetchedExercises(responseData.data))
-      .catch((error) => console.log(error));
+      .catch((error) => {
+        console.log(error);
+        toast({
+          title: error,
+          status: "error",
+          duration: 5000,
+          position: "top-right",
+          isClosable: true,
+        });
+      });
   };
 
   return (
