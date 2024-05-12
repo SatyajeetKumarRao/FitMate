@@ -39,7 +39,7 @@ app.use("/apiDocs", swaggerUI.serve, swaggerUI.setup(swaggerDocument));
 
 app.all("*", (req, res) => {
   try {
-    res.status(404).json({ message: "404 Invalid Route" });
+    res.status(404).json({ error: true, message: "404 Invalid Route" });
   } catch (error) {
     res.status(500).json({ message: `Some error occurred, Error : ${error}` });
   }

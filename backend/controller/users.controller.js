@@ -235,32 +235,31 @@ const updateUser = async (req, res) => {
 //   }
 // };
 
-// const logoutUser = async (req, res) => {
-//   try {
-//     if (
-//       req.headers.authorization &&
-//       req.headers.authorization.split(" ")[0] == "Bearer"
-//     ) {
-//       const accessToken = req.headers.authorization.split(" ")[1];
+const logoutUser = async (req, res) => {
+  try {
+    if (
+      req.headers.authorization &&
+      req.headers.authorization.split(" ")[0] == "Bearer"
+    ) {
+      const accessToken = req.headers.authorization.split(" ")[1];
 
-//       const blacklistToken = new BlacklistToken({ token: accessToken });
+      const blacklistToken = new BlacklistToken({ token: accessToken });
 
-//       await blacklistToken.save();
+      await blacklistToken.save();
 
-//       return res.status(200).json({
-//         error: false,
-//         message: "User logged out successfully",
-//       });
-//     } else {
-//       return res
-//         .status(400)
-//         .json({ error: true, message: "Access Token Required" });
-//     }
-//   } catch (error) {
-//     console.log(error.message);
-//     return res.status(400).json({ error: true, message: error.message });
-//   }
-// };
+      return res.status(200).json({
+        message: "User logged out successfully",
+      });
+    } else {
+      return res
+        .status(400)
+        .json({ error: true, message: "Access Token Required" });
+    }
+  } catch (error) {
+    console.log(error.message);
+    return res.status(400).json({ error: true, message: error.message });
+  }
+};
 
 module.exports = {
   userLogin,
@@ -269,5 +268,5 @@ module.exports = {
   getUserById,
   updateUser,
   // deleteUser,
-  // logoutUser,
+  logoutUser,
 };
