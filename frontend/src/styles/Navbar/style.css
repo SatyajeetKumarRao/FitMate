@@ -48,7 +48,7 @@
   border-bottom: 1px solid ;
 }
 
-@media screen and (max-width:784px){
+@media screen and (max-width:650px){
   .navbar{
     display: flex;
     justify-content: space-between;
