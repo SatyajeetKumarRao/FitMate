@@ -5,6 +5,7 @@ const { connectDB } = require("./utils/db.config");
 
 const { usersRouter } = require("./routes/users.routes");
 const { mealsRouter } = require("./routes/meals.routes");
+const { foodRouter } = require("./routes/food.routes");
 
 const app = express();
 
@@ -22,6 +23,8 @@ app.get("/", (req, res) => {
 app.use("/users", usersRouter);
 
 app.use("/meals", mealsRouter);
+
+app.use("/foods", foodRouter);
 
 app.all("*", (req, res) => {
   try {
