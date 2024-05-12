@@ -51,16 +51,19 @@ const UserDashboard = () => {
   const [addNewExercise, setAddNewExercise] = useState([]);
 
   const fetchSearchMeal = () => {
-    fetch(`http://localhost:3000/foods/search/?name=${searchMeal}`, {
-      headers: {
-        "Content-type": "application/json",
-        Authorization: `Bearer ${auth.accessToken}`,
-      },
-    })
+    fetch(
+      `https://tungabhadra-recursion-038.onrender.com/foods/search/?name=${searchMeal}`,
+      {
+        headers: {
+          "Content-type": "application/json",
+          Authorization: `Bearer ${auth.accessToken}`,
+        },
+      }
+    )
       .then((response) => response.json())
       .then((responseData) => setFetchedFood(responseData.data))
       .catch((error) => {
-        console.log(error)
+        console.log(error);
         toast({
           title: error,
           status: "error",
@@ -76,7 +79,7 @@ const UserDashboard = () => {
       return { food: foods.food, quantity: foods.quantity };
     });
 
-    fetch("http://localhost:3000/meals/addMeal", {
+    fetch("https://tungabhadra-recursion-038.onrender.com/meals/addMeal", {
       method: "POST",
       headers: {
         "Content-type": "application/json",
@@ -94,6 +97,9 @@ const UserDashboard = () => {
           position: "top-right",
           isClosable: true,
         });
+
+        setAddNewFood([]);
+
         mealModal.onClose();
       })
       .catch((error) => {
@@ -113,14 +119,17 @@ const UserDashboard = () => {
       return { exercise: exercise.exercise, duration: exercise.duration };
     });
 
-    fetch("http://localhost:3000/workouts/addWorkout", {
-      method: "POST",
-      headers: {
-        "Content-type": "application/json",
-        Authorization: `Bearer ${auth.accessToken}`,
-      },
-      body: JSON.stringify(newData),
-    })
+    fetch(
+      "https://tungabhadra-recursion-038.onrender.com/workouts/addWorkout",
+      {
+        method: "POST",
+        headers: {
+          "Content-type": "application/json",
+          Authorization: `Bearer ${auth.accessToken}`,
+        },
+        body: JSON.stringify(newData),
+      }
+    )
       .then((response) => response.json())
       .then((responseData) => {
         console.log(responseData);
@@ -131,6 +140,8 @@ const UserDashboard = () => {
           position: "top-right",
           isClosable: true,
         });
+
+        setAddNewExercise([]);
         workoutModal.onClose();
       })
       .catch((error) => {
@@ -146,12 +157,15 @@ const UserDashboard = () => {
   };
 
   const fetchSearchWorkout = () => {
-    fetch(`http://localhost:3000/exercises/search/?name=${searchWorkout}`, {
-      headers: {
-        "Content-type": "application/json",
-        Authorization: `Bearer ${auth.accessToken}`,
-      },
-    })
+    fetch(
+      `https://tungabhadra-recursion-038.onrender.com/exercises/search/?name=${searchWorkout}`,
+      {
+        headers: {
+          "Content-type": "application/json",
+          Authorization: `Bearer ${auth.accessToken}`,
+        },
+      }
+    )
       .then((response) => response.json())
       .then((responseData) => setFetchedExercises(responseData.data))
       .catch((error) => {

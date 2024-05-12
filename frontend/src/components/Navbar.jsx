@@ -1,6 +1,6 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
-import { Image, Flex, Button, Text } from "@chakra-ui/react";
+import { Image, Flex, Button, Text, useToast } from "@chakra-ui/react";
 import "../styles/Navbar/style.css";
 import { AuthContext } from "../contexts/AuthContext";
 
@@ -8,16 +8,56 @@ const NavBar = () => {
   const [isActive, setIsActive] = useState(false);
   const { auth, setAuth } = useContext(AuthContext);
   const navigate = useNavigate();
+  const toast = useToast();
 
   const handleLogout = () => {
-    setAuth({
-      isAuth: false,
-      userId: "",
-      email: "",
-      accessToken: "",
-    });
+    fetch("https://tungabhadra-recursion-038.onrender.com/users/logout", {
+      method: "POST",
+      headers: {
+        "Content-type": "application/json",
+        Authorization: `Bearer ${auth.accessToken}`,
+      },
+    })
+      .then((response) => response.json())
+      .then((responseData) => {
+        console.log(responseData);
 
-    navigate("/login");
+        if (!responseData.error) {
+          toast({
+            title: responseData.message,
+            status: "success",
+            duration: 5000,
+            position: "top-right",
+            isClosable: true,
+          });
+
+          setAuth({
+            isAuth: false,
+            userId: "",
+            email: "",
+            accessToken: "",
+          });
+
+          localStorage.removeItem("accessToken");
+          localStorage.removeItem("userId");
+          localStorage.removeItem("email");
+
+          navigate("/");
+        } else {
+          throw new Error(responseData.message);
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+
+        toast({
+          title: error,
+          status: "error",
+          duration: 5000,
+          position: "top-right",
+          isClosable: true,
+        });
+      });
   };
 
   const listOfLinks = [
