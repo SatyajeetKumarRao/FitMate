@@ -2,6 +2,7 @@ const express = require("express");
 
 const { authenticateUser } = require("../middleware/users.middleware");
 const { DailyLog } = require("../models/DailyLogs.model");
+const { mongoose } = require("mongoose");
 
 const dailyLogRouter = express.Router();
 
@@ -18,79 +19,87 @@ dailyLogRouter.get("/", authenticateUser, async (req, res) => {
       user: userId,
     });
 
-    console.log(todayDate(), userId, dailyLog);
-
     if (!dailyLog) {
       return res.status(200).json({ data: null });
     } else {
-      console.log(userId);
-
       const result = await DailyLog.aggregate([
         {
-          $match: { user: userId, date: todayDate() },
+          $match: {
+            user: new mongoose.Types.ObjectId(userId),
+            date: todayDate(),
+          },
         },
-        // {
-        //   $lookup: {
-        //     from: "workouts",
-        //     localField: "workouts",
-        //     foreignField: "_id",
-        //     as: "workouts",
-        //   },
-        // },
-        // { $unwind: "$workouts" },
-        // {
-        //   $lookup: {
-        //     from: "exercises",
-        //     localField: "workouts.exercises.exercise",
-        //     foreignField: "_id",
-        //     as: "exercises",
-        //   },
-        // },
-        // {
-        //   $addFields: {
-        //     totalCaloriesBurned: {
-        //       $sum: {
-        //         $multiply: [
-        //           "$exercises.caloriesBurnedPerMinute",
-        //           "$workouts.exercises.duration",
-        //         ],
-        //       },
-        //     },
-        //   },
-        // },
-        // {
-        //   $lookup: {
-        //     from: "meals",
-        //     localField: "meals",
-        //     foreignField: "_id",
-        //     as: "meals",
-        //   },
-        // },
-        // { $unwind: "$meals" },
-        // {
-        //   $lookup: {
-        //     from: "foods",
-        //     localField: "meals.foods.food",
-        //     foreignField: "_id",
-        //     as: "foods",
-        //   },
-        // },
-        // {
-        //   $addFields: {
-        //     totalCaloriesConsumed: {
-        //       $sum: {
-        //         $multiply: ["$foods.calories", "$meals.foods.quantity"],
-        //       },
-        //     },
-        //   },
-        // },
-        // {
-        //   $project: {
-        //     _id: 0,
-        //     totalCaloriesBurned: 1,
-        //     totalCaloriesConsumed: 1,
-        //   },
-        // },
+        {
+          $lookup: {
+            from: "meals",
+            localField: "meals",
+            foreignField: "_id",
+            as: "meals",
+          },
+        },
+        { $unwind: "$meals" },
+        { $unwind: "$meals.foods" },
+        {
+          $lookup: {
+            from: "foods",
+            localField: "meals.foods.food",
+            foreignField: "_id",
+            as: "foodDetail",
+          },
+        },
+        { $unwind: "$foodDetail" },
+        {
+          $addFields: {
+            totalCalories: {
+              $multiply: ["$meals.foods.quantity", "$foodDetail.calories"],
+            },
+          },
+        },
+        {
+          $group: {
+            _id: "$user",
+            workouts: { $addToSet: "$workouts" },
+            totalCalories: { $sum: "$totalCalories" },
+          },
+        },
+        { $unwind: "$workouts" },
+        {
+          $lookup: {
+            from: "workouts",
+            localField: "workouts",
+            foreignField: "_id",
+            as: "workouts",
+          },
+        },
+        { $unwind: "$workouts" },
+        { $unwind: "$workouts.exercises" },
+        {
+          $lookup: {
+            from: "exercises",
+            localField: "workouts.exercises.exercise",
+            foreignField: "_id",
+            as: "exerciseDetail",
+          },
+        },
+        { $unwind: "$exerciseDetail" },
+        {
+          $addFields: {
+            totalCaloriesBurned: {
+              $multiply: [
+                "$workouts.exercises.duration",
+                "$exerciseDetail.caloriesBurnedPerMinute",
+              ],
+            },
+          },
+        },
+        {
+          $group: {
+            _id: "$_id",
+            totalCalories: { $addToSet: "$totalCalories" },
+            totalCaloriesBurned: { $sum: "$totalCaloriesBurned" },
+          },
+        },
+        { $unwind: "$totalCalories" },
       ]);
 
       console.log(result);

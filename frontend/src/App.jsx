@@ -3,6 +3,7 @@ import "./App.css";
 import Navbar from "./components/Navbar";
 import { AllRoutes } from "./routes/AllRoutes";
 import { AuthContext } from "./contexts/AuthContext";
+import { ChatBotComponent } from "./components/ChatBotComponent";
 
 function App() {
   const { auth, setAuth } = useContext(AuthContext);
@@ -27,6 +28,7 @@ function App() {
     <>
       <Navbar />
       <AllRoutes />
+      <ChatBotComponent />
     </>
   );
 }

@@ -8,7 +8,6 @@ const exerciseRouter = express.Router();
 exerciseRouter.get("/search", authenticateUser, async (req, res) => {
   try {
     const { name } = req.query;
-    console.log(name);
 
     const exerciseData = await Exercise.find({ name: RegExp(name, "i") });
 

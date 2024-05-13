@@ -12,6 +12,7 @@ const swaggerDocument = require("./swagger.json");
 const { exerciseRouter } = require("./routes/exercises.routes");
 const { workoutRouter } = require("./routes/workouts.routes");
 const { dailyLogRouter } = require("./routes/dailyLogs.routes");
+const { keepAlive } = require("./keepalive");
 
 const app = express();
 
@@ -51,6 +52,7 @@ app.all("*", (req, res) => {
 app.listen(process.env.PORT, async () => {
   await connectDB();
   console.log(`Server is running at port ${process.env.PORT}`);
+  keepAlive();
 });
 
 module.exports = app;
