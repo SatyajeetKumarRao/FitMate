@@ -5,7 +5,7 @@ const ChatBotComponent = () => {
   const steps = [
     {
       id: "0",
-      message: "Welcome to the LearnLang chatbot!",
+      message: "Welcome to the Fitmate chatbot!",
       trigger: "1",
     },
     {
