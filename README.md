@@ -203,6 +203,10 @@ Add Workout Modal:
 ![Screenshot (67)](https://github.com/SatyajeetKumarRao/Tungabhadra-Recursion-038/assets/67307315/e7e15aec-642f-4e4c-9f7e-071da84885c1)
 
 
+## Credentials
+UserId : satyajeet@gmail.com
+Password : user123
+
 ## API Endpoints
 
 The deployed server can be used to fetch and sort any data. Further, it can be used to log in and register a user.
