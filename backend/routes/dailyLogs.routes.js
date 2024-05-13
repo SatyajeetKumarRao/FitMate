@@ -100,12 +100,12 @@ dailyLogRouter.get("/", authenticateUser, async (req, res) => {
           },
         },
         { $unwind: "$totalCalories" },
+        { $project: { _id: 0 } },
       ]);
 
       console.log(result);
+      return res.status(200).json({ data: result[0] });
     }
-
-    return res.status(200).json({ data: "foodsData" });
   } catch (error) {
     console.log(error.message);
     return res.status(400).json({ error: true, message: error.message });

@@ -84,7 +84,7 @@ const ChatBotComponent = () => {
     headerFontColor: "black",
     botFontColor: "white",
     userBubbleColor: "#888324",
-    userFontColor: "black",
+    userFontColor: "#ffffff",
   };
 
   const config = {
