@@ -17,36 +17,233 @@ Backend: https://tungabhadra-recursion-038.onrender.com
 ## Directory Structure
 
 ```
-
+├── .gitignore
+├── README.md
+├── backend/
+│   ├── .gitignore
+│   ├── controller/
+│   │   └── users.controller.js
+│   ├── index.js
+│   ├── middleware/
+│   │   └── users.middleware.js
+│   ├── models/
+│   │   ├── DailyLogs.model.js
+│   │   ├── Exercises.model.js
+│   │   ├── Foods.model.js
+│   │   ├── Meals.model.js
+│   │   ├── Workouts.model.js
+│   │   ├── blacklistToken.model.js
+│   │   └── users.model.js
+│   ├── package-lock.json
+│   ├── package.json
+│   ├── routes/
+│   │   ├── exercises.routes.js
+│   │   ├── food.routes.js
+│   │   ├── meals.routes.js
+│   │   ├── users.routes.js
+│   │   └── workouts.routes.js
+│   ├── swagger.json
+│   ├── utils/
+│   │   ├── AgeCalculator.js
+│   │   ├── TdeeCalculator.js
+│   │   └── db.config.js
+│   └── vercel.json
+└── frontend/
+│   ├── .eslintrc.cjs
+│   ├── .gitignore
+│   ├── README.md
+│   ├── index.html
+│   ├── package-lock.json
+│   ├── package.json
+│   ├── public/
+│   │   ├── banner.png
+│   │   ├── image-1.avif
+│   │   ├── image-2.avif
+│   │   ├── image-3.avif
+│   │   ├── image-4.avif
+│   │   ├── image-5.avif
+│   │   ├── image-6.avif
+│   │   ├── logo-transparant.png
+│   │   ├── logo.png
+│   │   └── vite.svg
+│   ├── src/
+│   │   ├── App.css
+│   │   ├── App.jsx
+│   │   ├── assets/
+│   │   │   └── react.svg
+│   │   ├── components/
+│   │   │   ├── About.jsx
+│   │   │   ├── Home.jsx
+│   │   │   └── Navbar.jsx
+│   │   ├── contexts/
+│   │   │   └── AuthContext.jsx
+│   │   ├── index.css
+│   │   ├── main.jsx
+│   │   ├── pages/
+│   │   │   ├── Login.jsx
+│   │   │   ├── Signup.jsx
+│   │   │   └── UserDashboard.jsx
+│   │   ├── routes/
+│   │   │   ├── AllRoutes.jsx
+│   │   │   └── PrivateRoute.jsx
+│   │   └── styles/
+│   │   │   ├── Dashboard/
+│   │   │   │   └── styles.css
+│   │   │   ├── Navbar/
+│   │   │   │   └── style.css
+│   │   │   ├── css/
+│   │   │   │   ├── style.css
+│   │   │   │   ├── style.css.map
+│   │   │   │   └── style.scss
+│   │   │   ├── fonts/
+│   │   │   │   ├── Abril_Fatface/
+│   │   │   │   │   ├── AbrilFatface-Regular.ttf
+│   │   │   │   │   └── OFL.txt
+│   │   │   │   ├── material-design-iconic-font/
+│   │   │   │   │   ├── css/
+│   │   │   │   │   │   ├── material-design-iconic-font.css
+│   │   │   │   │   │   └── material-design-iconic-font.min.css
+│   │   │   │   │   └── fonts/
+│   │   │   │   │   │   ├── Material-Design-Iconic-Font.eot
+│   │   │   │   │   │   ├── Material-Design-Iconic-Font.svg
+│   │   │   │   │   │   ├── Material-Design-Iconic-Font.ttf
+│   │   │   │   │   │   ├── Material-Design-Iconic-Font.woff
+│   │   │   │   │   │   └── Material-Design-Iconic-Font.woff2
+│   │   │   │   └── muli/
+│   │   │   │   │   ├── Muli-Bold.ttf
+│   │   │   │   │   ├── Muli-Regular.ttf
+│   │   │   │   │   └── Muli-SemiBold.ttf
+│   │   │   └── images/
+│   │   │   │   ├── balance.png
+│   │   │   │   ├── banner.png
+│   │   │   │   ├── bg-login-form.jpg
+│   │   │   │   ├── bg-registration-form.jpg
+│   │   │   │   ├── food.png
+│   │   │   │   ├── net calories.png
+│   │   │   │   └── workout.png
+│   └── vite.config.js
 ```
 
 ## Video Walkthrough of the project
 
-Project-Presentation Link:
+Project-Presentation Link: https://youtu.be/9zDoG3f1UNE
 
 ## Features
+
+- Responsive and dynamic website
+- User authentication using jwt
+- Password hashing
+- CRUD Operations
+- Search property using search param
+- Private routes
 
 ## Installation & Getting started
 
 Detailed instructions on how to install, configure, and get the project running.
 
+To run the frontend website, enter the following commands in your terminal:
+
 ```bash
 
+# Move into the FrontEnd Directory
+cd frontend/
+
+# Install all dependencies
+npm install
+
+# Run the dev server
+npm run dev
+
+```
+
+To run the backend server, enter the following commands in your terminal:
+
+```bash
+
+# Move into the BackEnd directory
+cd backend/
+
+# Install all dependencies
+npm install
+
+# Run the server
+npm run start
 
 ```
 
 ## Usage
 
-To start Application
-
-```bash
 
 
-```
 
-Snapshot of Website
+#### Snapshot of Website
+
+Home Page:
+![Screenshot (59)](https://github.com/SatyajeetKumarRao/Tungabhadra-Recursion-038/assets/67307315/b72b7ecd-b010-4031-9693-79cc07d1e353)
+
+About Page:
+![Screenshot (60)](https://github.com/SatyajeetKumarRao/Tungabhadra-Recursion-038/assets/67307315/ade8d4f3-359c-4415-8f33-650ef75bfa6e)
+
+Login Page:
+![Screenshot (61)](https://github.com/SatyajeetKumarRao/Tungabhadra-Recursion-038/assets/67307315/5f7cb295-b4d0-4b1d-9526-f24729691337)
+
+Signup Page:
+![Screenshot (62)](https://github.com/SatyajeetKumarRao/Tungabhadra-Recursion-038/assets/67307315/cab13b15-b3c8-4827-9691-fdfeec53f47a)
+
+Chatbot:
+![Screenshot (63)](https://github.com/SatyajeetKumarRao/Tungabhadra-Recursion-038/assets/67307315/cc3320ef-0f77-4bc4-bc50-b721672d05ad)
+
+Dashboard Page:
+![Screenshot (65)](https://github.com/SatyajeetKumarRao/Tungabhadra-Recursion-038/assets/67307315/39dac6be-6aa4-45ba-b1c4-13ef39fbcc02)
+
+Add Meal Modal:
+![Screenshot (66)](https://github.com/SatyajeetKumarRao/Tungabhadra-Recursion-038/assets/67307315/be4f5b09-d6f6-4b9c-9dfd-0546ef55cd34)
+
+Add Workout Modal:
+![Screenshot (67)](https://github.com/SatyajeetKumarRao/Tungabhadra-Recursion-038/assets/67307315/e7e15aec-642f-4e4c-9f7e-071da84885c1)
+
+
+## Credentials
+UserId : satyajeet@gmail.com
+Password : user123
 
 ## API Endpoints
+
+The deployed server can be used to fetch and sort any data. Further, it can be used to log in and register a user.
+
+API : https://tungabhadra-recursion-038.onrender.com
+
+users
+
+users:
+
+POST https://tungabhadra-recursion-038.onrender.com/users/register - register a new user
+POST https://tungabhadra-recursion-038.onrender.com/users/login- log in as an existing user
+POST https://tungabhadra-recursion-038.onrender.com/users/logout- logout user
+GET https://tungabhadra-recursion-038.onrender.com/users/user - retrieve user by their userId. UserId will be taken from access token.
+PATCH https://tungabhadra-recursion-038.onrender.com/users/updateProfile - update details of user
+
+meals:
+
+GET https://tungabhadra-recursion-038.onrender.com/meals - Get meal data
+POST https://tungabhadra-recursion-038.onrender.com/meals/addMeal - Add meal data 
+
+exercises:
+
+GET https://tungabhadra-recursion-038.onrender.com/exercises/search - Get exercise data from search
+
+foods:
+
+GET https://tungabhadra-recursion-038.onrender.com/foods/search - Get food data from search
+
+workouts:
+
+GET https://tungabhadra-recursion-038.onrender.com/workouts - Get workout data
+POST https://tungabhadra-recursion-038.onrender.com/workouts/addWorkout - Add workout data
+
+apiDocs:
+
+GET https://tungabhadra-recursion-038.onrender.com/apiDocs - API Documentation
 
 ## Technology Stack
 

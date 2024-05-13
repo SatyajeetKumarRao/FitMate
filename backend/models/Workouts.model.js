@@ -4,7 +4,7 @@ const mongoose = require("mongoose");
 const workoutSchema = new mongoose.Schema(
   {
     user: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
-    date: { type: Date, default: Date.now },
+    date: { type: String, default: new Date().toISOString().split("T")[0] },
     exercises: [
       {
         _id: false,

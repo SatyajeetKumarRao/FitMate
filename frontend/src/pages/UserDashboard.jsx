@@ -29,8 +29,9 @@ import food from "../styles/images/food.png";
 import workout from "../styles/images/workout.png";
 import net from "../styles/images/net calories.png";
 import balance from "../styles/images/balance.png";
-import { useContext, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { AuthContext } from "../contexts/AuthContext";
+import { BASE_URL } from "../utils/vars";
 
 const UserDashboard = () => {
   const mealModal = useDisclosure();
@@ -50,16 +51,53 @@ const UserDashboard = () => {
   const [addNewFood, setAddNewFood] = useState([]);
   const [addNewExercise, setAddNewExercise] = useState([]);
 
+  const [userCalories, setUsersCalories] = useState(null);
+  const [userTargetTDEE, setuserTargetTDEE] = useState(0);
+
+  const fetchDailyLogs = () => {
+    fetch(`${BASE_URL}/dailyLog/`, {
+      headers: {
+        Authorization: `Bearer ${auth.accessToken}`,
+      },
+    })
+      .then((response) => response.json())
+      .then((responseData) => {
+        console.log(responseData.data);
+        setUsersCalories(responseData.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  const fetchUserData = () => {
+    fetch(`${BASE_URL}/users/user`, {
+      headers: {
+        Authorization: `Bearer ${auth.accessToken}`,
+      },
+    })
+      .then((response) => response.json())
+      .then((responseData) => {
+        console.log(responseData.data.targetTdee);
+        setuserTargetTDEE(responseData.data.targetTdee);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  useEffect(() => {
+    fetchDailyLogs();
+    fetchUserData();
+  }, []);
+
   const fetchSearchMeal = () => {
-    fetch(
-      `https://tungabhadra-recursion-038.onrender.com/foods/search/?name=${searchMeal}`,
-      {
-        headers: {
-          "Content-type": "application/json",
-          Authorization: `Bearer ${auth.accessToken}`,
-        },
-      }
-    )
+    fetch(`${BASE_URL}/foods/search/?name=${searchMeal}`, {
+      headers: {
+        "Content-type": "application/json",
+        Authorization: `Bearer ${auth.accessToken}`,
+      },
+    })
       .then((response) => response.json())
       .then((responseData) => setFetchedFood(responseData.data))
       .catch((error) => {
@@ -79,7 +117,7 @@ const UserDashboard = () => {
       return { food: foods.food, quantity: foods.quantity };
     });
 
-    fetch("https://tungabhadra-recursion-038.onrender.com/meals/addMeal", {
+    fetch(`${BASE_URL}/meals/addMeal`, {
       method: "POST",
       headers: {
         "Content-type": "application/json",
@@ -99,7 +137,7 @@ const UserDashboard = () => {
         });
 
         setAddNewFood([]);
-
+        fetchDailyLogs();
         mealModal.onClose();
       })
       .catch((error) => {
@@ -119,17 +157,14 @@ const UserDashboard = () => {
       return { exercise: exercise.exercise, duration: exercise.duration };
     });
 
-    fetch(
-      "https://tungabhadra-recursion-038.onrender.com/workouts/addWorkout",
-      {
-        method: "POST",
-        headers: {
-          "Content-type": "application/json",
-          Authorization: `Bearer ${auth.accessToken}`,
-        },
-        body: JSON.stringify(newData),
-      }
-    )
+    fetch(`${BASE_URL}/workouts/addWorkout`, {
+      method: "POST",
+      headers: {
+        "Content-type": "application/json",
+        Authorization: `Bearer ${auth.accessToken}`,
+      },
+      body: JSON.stringify(newData),
+    })
       .then((response) => response.json())
       .then((responseData) => {
         console.log(responseData);
@@ -142,6 +177,7 @@ const UserDashboard = () => {
         });
 
         setAddNewExercise([]);
+        fetchDailyLogs();
         workoutModal.onClose();
       })
       .catch((error) => {
@@ -157,15 +193,12 @@ const UserDashboard = () => {
   };
 
   const fetchSearchWorkout = () => {
-    fetch(
-      `https://tungabhadra-recursion-038.onrender.com/exercises/search/?name=${searchWorkout}`,
-      {
-        headers: {
-          "Content-type": "application/json",
-          Authorization: `Bearer ${auth.accessToken}`,
-        },
-      }
-    )
+    fetch(`${BASE_URL}/exercises/search/?name=${searchWorkout}`, {
+      headers: {
+        "Content-type": "application/json",
+        Authorization: `Bearer ${auth.accessToken}`,
+      },
+    })
       .then((response) => response.json())
       .then((responseData) => setFetchedExercises(responseData.data))
       .catch((error) => {
@@ -200,7 +233,7 @@ const UserDashboard = () => {
                     <StatLabel className="see-more">Goal</StatLabel>
                     <br />
                     <StatNumber className="card-title">
-                      2870{" "}
+                      {userTargetTDEE + " "}
                       <span style={{ fontSize: "15px", fontWeight: "500" }}>
                         Cal
                       </span>
@@ -265,8 +298,10 @@ const UserDashboard = () => {
                     <div className="dot"></div>
                   </div>
                 </div>
-                <div className="card-time">32hrs</div>
-                <p className="recent">Last Week-36hrs</p>
+                <div className="card-time">
+                  {userCalories != null ? userCalories.totalCalories + " " : 0}
+                </div>
+                <p className="recent">Today&apos;s intake calories</p>
               </div>
             </div>
           </div>
@@ -288,8 +323,12 @@ const UserDashboard = () => {
                     <div className="dot"></div>
                   </div>
                 </div>
-                <div className="card-time">32hrs</div>
-                <p className="recent">Last Week-36hrs</p>
+                <div className="card-time">
+                  {userCalories != null
+                    ? userCalories.totalCaloriesBurned + " "
+                    : 0}
+                </div>
+                <p className="recent">Today&apos;s burned calories</p>
               </div>
             </div>
           </div>
@@ -311,8 +350,16 @@ const UserDashboard = () => {
                     <div className="dot"></div>
                   </div>
                 </div>
-                <div className="card-time">32hrs</div>
-                <p className="recent">Last Week-36hrs</p>
+                <div className="card-time">
+                  {userCalories != null
+                    ? userCalories.totalCalories -
+                      userCalories.totalCaloriesBurned +
+                      " "
+                    : 0}
+                </div>
+                <p className="recent">
+                  Today&apos;s net calories (intake - burned)
+                </p>
               </div>
             </div>
           </div>
@@ -334,16 +381,24 @@ const UserDashboard = () => {
                     <div className="dot"></div>
                   </div>
                 </div>
-                <div className="card-time">32hrs</div>
-                <p className="recent">Last Week-36hrs</p>
+                <div className="card-time">
+                  {userTargetTDEE -
+                    (userCalories != null
+                      ? userCalories.totalCalories -
+                        userCalories.totalCaloriesBurned
+                      : 0)}
+                </div>
+                <p className="recent">
+                  Today&apos;s balance calories (goal - net)
+                </p>
               </div>
             </div>
           </div>
         </div>
         <Box
-          bgGradient="linear(to-tr, #595732, #3f3f3a)"
-          minH="100vh"
-          color="white"
+          // bgGradient="linear(to-tr, #595732, #3f3f3a)"
+          // minH="100vh"
+          // color="white"
           mt={2}
         >
           <Box>
@@ -463,7 +518,7 @@ const UserDashboard = () => {
                         key={food._id}
                         style={{
                           width: "100%",
-                          maxWidth: "350px",
+                          maxWidth: "330px",
                           boxShadow:
                             "rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px",
                           borderRadius: "10px",
@@ -522,8 +577,6 @@ const UserDashboard = () => {
                                 min: 1,
                               }}
                               onChange={(e) => {
-                                console.log(e.target.value);
-
                                 if (e.target.value >= 0) {
                                   const foodId = food._id;
                                   const newFood = addNewFood.filter((item) => {
@@ -645,7 +698,7 @@ const UserDashboard = () => {
                         key={exercise._id}
                         style={{
                           width: "100%",
-                          maxWidth: "300px",
+                          maxWidth: "330px",
                           boxShadow:
                             "rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px",
                           borderRadius: "10px",
