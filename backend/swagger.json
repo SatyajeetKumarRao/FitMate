@@ -377,6 +377,193 @@
           }
         }
       }
+    },
+    "/foods/search": {
+      "get": {
+        "summary": "Search for foods",
+        "tags": ["Foods"],
+        "parameters": [
+          {
+            "name": "name",
+            "in": "query",
+            "description": "Name of the food to search for",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/Food"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          }
+        }
+      }
+    },
+    "/exercises/search": {
+      "get": {
+        "summary": "Search for exercises",
+        "tags": ["Exercises"],
+        "parameters": [
+          {
+            "name": "name",
+            "in": "query",
+            "description": "Name of the exercise to search for",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/Exercise"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          }
+        }
+      }
+    },
+    "/workouts/addWorkout": {
+      "post": {
+        "summary": "Add a new workout",
+        "tags": ["Workouts"],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Workout"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "New Workout Added",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Success message"
+                    },
+                    "data": {
+                      "$ref": "#/components/schemas/Workout"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
+    "/workouts/": {
+      "get": {
+        "summary": "Get workouts for the authenticated user",
+        "tags": ["Workouts"],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/Workout"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
+    "/workouts/*": {
+      "all": {
+        "summary": "Invalid Route",
+        "description": "Handle invalid routes under /workouts/",
+        "responses": {
+          "404": {
+            "description": "Invalid route",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "404 Invalid Route"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
@@ -516,6 +703,93 @@
           }
         },
         "required": ["user", "date", "foods"]
+      },
+      "Food": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Name of the food",
+            "example": "Apple"
+          },
+          "calories": {
+            "type": "number",
+            "description": "Calories in the food",
+            "example": 52
+          },
+          "servingSize": {
+            "type": "string",
+            "description": "Serving size of the food (optional)",
+            "example": "1 medium apple"
+          },
+          "macros": {
+            "type": "object",
+            "properties": {
+              "protein": {
+                "type": "number",
+                "description": "Protein content in grams (optional)"
+              },
+              "carbs": {
+                "type": "number",
+                "description": "Carbohydrate content in grams (optional)"
+              },
+              "fat": {
+                "type": "number",
+                "description": "Fat content in grams (optional)"
+              }
+            },
+            "description": "Macronutrient content of the food (optional)"
+          }
+        }
+      },
+      "Exercise": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Name of the exercise",
+            "example": "Running"
+          },
+          "type": {
+            "type": "string",
+            "description": "Type of exercise",
+            "enum": ["Cardio", "Strength", "Flexibility", "Dance", "Yoga", "Cycling", "Walking", "Running", "Stretching"]
+          },
+          "caloriesBurnedPerMinute": {
+            "type": "number",
+            "description": "Estimated calories burned per minute during exercise"
+          }
+        }
+      },
+      "Workout": {
+        "type": "object",
+        "properties": {
+          "user": {
+            "type": "string",
+            "description": "User ID"
+          },
+          "date": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Date of the workout"
+          },
+          "exercises": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "exercise": {
+                  "type": "string",
+                  "description": "Exercise ID"
+                },
+                "duration": {
+                  "type": "number",
+                  "description": "Duration of the exercise in minutes"
+                }
+              }
+            }
+          }
+        }
       }
     }
   }
