@@ -175,32 +175,38 @@ npm run start
 
 
 
+### Snapshot of Website
 
-#### Snapshot of Website
+#### Home Page:
+![Screenshot (59)](https://github.com/SatyajeetKumarRao/Tungabhadra-Recursion-038/assets/67307315/b8fd71e3-1f2e-437d-9565-fec698f30384)
 
-Home Page:
-![Screenshot (59)](https://github.com/SatyajeetKumarRao/Tungabhadra-Recursion-038/assets/67307315/b72b7ecd-b010-4031-9693-79cc07d1e353)
 
-About Page:
-![Screenshot (60)](https://github.com/SatyajeetKumarRao/Tungabhadra-Recursion-038/assets/67307315/ade8d4f3-359c-4415-8f33-650ef75bfa6e)
+#### About Page:
+![Screenshot (60)](https://github.com/SatyajeetKumarRao/Tungabhadra-Recursion-038/assets/67307315/1ca9a888-fe9e-4919-b7c3-52ce5eecc84a)
 
-Login Page:
-![Screenshot (61)](https://github.com/SatyajeetKumarRao/Tungabhadra-Recursion-038/assets/67307315/5f7cb295-b4d0-4b1d-9526-f24729691337)
 
-Signup Page:
-![Screenshot (62)](https://github.com/SatyajeetKumarRao/Tungabhadra-Recursion-038/assets/67307315/cab13b15-b3c8-4827-9691-fdfeec53f47a)
+#### Login Page:
+![Screenshot (61)](https://github.com/SatyajeetKumarRao/Tungabhadra-Recursion-038/assets/67307315/f2a42d19-0615-4b3e-a644-be8cb9fcaa58)
 
-Chatbot:
-![Screenshot (63)](https://github.com/SatyajeetKumarRao/Tungabhadra-Recursion-038/assets/67307315/cc3320ef-0f77-4bc4-bc50-b721672d05ad)
 
-Dashboard Page:
-![Screenshot (65)](https://github.com/SatyajeetKumarRao/Tungabhadra-Recursion-038/assets/67307315/39dac6be-6aa4-45ba-b1c4-13ef39fbcc02)
+#### Signup Page:
+![Screenshot (62)](https://github.com/SatyajeetKumarRao/Tungabhadra-Recursion-038/assets/67307315/ea0a810a-9055-4eab-92ba-4694a995ee1e)
 
-Add Meal Modal:
-![Screenshot (66)](https://github.com/SatyajeetKumarRao/Tungabhadra-Recursion-038/assets/67307315/be4f5b09-d6f6-4b9c-9dfd-0546ef55cd34)
 
-Add Workout Modal:
-![Screenshot (67)](https://github.com/SatyajeetKumarRao/Tungabhadra-Recursion-038/assets/67307315/e7e15aec-642f-4e4c-9f7e-071da84885c1)
+#### Chatbot:
+![Screenshot (63)](https://github.com/SatyajeetKumarRao/Tungabhadra-Recursion-038/assets/67307315/e214eb65-20b5-4458-a14d-5a94552d0861)
+
+
+#### Dashboard Page:
+![Screenshot (65)](https://github.com/SatyajeetKumarRao/Tungabhadra-Recursion-038/assets/67307315/c208e36c-9f32-4789-9a6d-e370dae689ec)
+
+
+#### Add Meal Modal:
+![Screenshot (66)](https://github.com/SatyajeetKumarRao/Tungabhadra-Recursion-038/assets/67307315/aa518ba0-f7fe-4cd8-88d0-d6708e6d53db)
+
+
+#### Add Workout Modal:
+![Screenshot (67)](https://github.com/SatyajeetKumarRao/Tungabhadra-Recursion-038/assets/67307315/cabd79c5-376a-44f2-a569-e912414c684c)
 
 
 ## Credentials
@@ -212,38 +218,37 @@ Password : user123
 The deployed server can be used to fetch and sort any data. Further, it can be used to log in and register a user.
 
 API : https://tungabhadra-recursion-038.onrender.com
+Swagger Docs : https://tungabhadra-recursion-038.onrender.com/apiDocs
 
-users
+#### users:
 
-users:
+- POST https://tungabhadra-recursion-038.onrender.com/users/register - register a new user
+- POST https://tungabhadra-recursion-038.onrender.com/users/login- log in as an existing user
+- POST https://tungabhadra-recursion-038.onrender.com/users/logout- logout user
+- GET https://tungabhadra-recursion-038.onrender.com/users/user - retrieve user by their userId. UserId will be taken from access token.
+- PATCH https://tungabhadra-recursion-038.onrender.com/users/updateProfile - update details of user
 
-POST https://tungabhadra-recursion-038.onrender.com/users/register - register a new user
-POST https://tungabhadra-recursion-038.onrender.com/users/login- log in as an existing user
-POST https://tungabhadra-recursion-038.onrender.com/users/logout- logout user
-GET https://tungabhadra-recursion-038.onrender.com/users/user - retrieve user by their userId. UserId will be taken from access token.
-PATCH https://tungabhadra-recursion-038.onrender.com/users/updateProfile - update details of user
+#### meals:
 
-meals:
+- GET https://tungabhadra-recursion-038.onrender.com/meals - Get meal data
+- POST https://tungabhadra-recursion-038.onrender.com/meals/addMeal - Add meal data 
 
-GET https://tungabhadra-recursion-038.onrender.com/meals - Get meal data
-POST https://tungabhadra-recursion-038.onrender.com/meals/addMeal - Add meal data 
+#### exercises:
 
-exercises:
+- GET https://tungabhadra-recursion-038.onrender.com/exercises/search - Get exercise data from search
 
-GET https://tungabhadra-recursion-038.onrender.com/exercises/search - Get exercise data from search
+#### foods:
 
-foods:
+- GET https://tungabhadra-recursion-038.onrender.com/foods/search - Get food data from search
 
-GET https://tungabhadra-recursion-038.onrender.com/foods/search - Get food data from search
+#### workouts:
 
-workouts:
+- GET https://tungabhadra-recursion-038.onrender.com/workouts - Get workout data
+- POST https://tungabhadra-recursion-038.onrender.com/workouts/addWorkout - Add workout data
 
-GET https://tungabhadra-recursion-038.onrender.com/workouts - Get workout data
-POST https://tungabhadra-recursion-038.onrender.com/workouts/addWorkout - Add workout data
+#### apiDocs:
 
-apiDocs:
-
-GET https://tungabhadra-recursion-038.onrender.com/apiDocs - API Documentation
+- GET https://tungabhadra-recursion-038.onrender.com/apiDocs - API Documentation (Swagger)
 
 ## Technology Stack
 
@@ -252,7 +257,9 @@ List and provide a brief overview of the technologies used in the project.
 - React.js
 - Node.js
 - Express.js
+- MongoDB
 - Chakra-ui
+- SAAS
 - Other libraries/modules
 
 ## Contributors
