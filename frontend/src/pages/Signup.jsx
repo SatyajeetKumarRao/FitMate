@@ -5,6 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { Button } from "@chakra-ui/react";
 import { useToast } from "@chakra-ui/react";
 import { useState } from "react";
+import { BASE_URL } from "../utils/vars";
 
 const initialData = {
   isLoading: false,
@@ -58,7 +59,7 @@ const Signup = () => {
 
     setFormState({ ...formState, isLoading: true, isError: false });
 
-    fetch("https://tungabhadra-recursion-038.onrender.com/users/register", {
+    fetch(`${BASE_URL}/users/register`, {
       method: "POST",
       headers: {
         "Content-type": "application/json",

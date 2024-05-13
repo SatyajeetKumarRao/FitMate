@@ -3,6 +3,7 @@ import { NavLink, useNavigate } from "react-router-dom";
 import { Image, Flex, Button, Text, useToast } from "@chakra-ui/react";
 import "../styles/Navbar/style.css";
 import { AuthContext } from "../contexts/AuthContext";
+import { BASE_URL } from "../utils/vars";
 
 const NavBar = () => {
   const [isActive, setIsActive] = useState(false);
@@ -11,7 +12,7 @@ const NavBar = () => {
   const toast = useToast();
 
   const handleLogout = () => {
-    fetch("https://tungabhadra-recursion-038.onrender.com/users/logout", {
+    fetch(`${BASE_URL}/users/logout`, {
       method: "POST",
       headers: {
         "Content-type": "application/json",

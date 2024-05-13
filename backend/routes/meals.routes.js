@@ -6,7 +6,6 @@ const { DailyLog } = require("../models/DailyLogs.model");
 const mealsRouter = express.Router();
 
 const todayDate = () => {
-  console.log(Date.now());
   return new Date().toISOString().split("T")[0];
 };
 

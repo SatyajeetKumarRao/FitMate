@@ -31,6 +31,7 @@ import net from "../styles/images/net calories.png";
 import balance from "../styles/images/balance.png";
 import { useContext, useEffect, useRef, useState } from "react";
 import { AuthContext } from "../contexts/AuthContext";
+import { BASE_URL } from "../utils/vars";
 
 const UserDashboard = () => {
   const mealModal = useDisclosure();
@@ -51,7 +52,7 @@ const UserDashboard = () => {
   const [addNewExercise, setAddNewExercise] = useState([]);
 
   useEffect(() => {
-    fetch("https://tungabhadra-recursion-038.onrender.com/dailyLog/", {
+    fetch(`${BASE_URL}/dailyLog/`, {
       headers: {
         Authorization: `Bearer ${auth.accessToken}`,
       },
@@ -66,15 +67,12 @@ const UserDashboard = () => {
   }, []);
 
   const fetchSearchMeal = () => {
-    fetch(
-      `https://tungabhadra-recursion-038.onrender.com/foods/search/?name=${searchMeal}`,
-      {
-        headers: {
-          "Content-type": "application/json",
-          Authorization: `Bearer ${auth.accessToken}`,
-        },
-      }
-    )
+    fetch(`${BASE_URL}/foods/search/?name=${searchMeal}`, {
+      headers: {
+        "Content-type": "application/json",
+        Authorization: `Bearer ${auth.accessToken}`,
+      },
+    })
       .then((response) => response.json())
       .then((responseData) => setFetchedFood(responseData.data))
       .catch((error) => {
@@ -94,7 +92,7 @@ const UserDashboard = () => {
       return { food: foods.food, quantity: foods.quantity };
     });
 
-    fetch("https://tungabhadra-recursion-038.onrender.com/meals/addMeal", {
+    fetch(`${BASE_URL}/meals/addMeal`, {
       method: "POST",
       headers: {
         "Content-type": "application/json",
@@ -134,17 +132,14 @@ const UserDashboard = () => {
       return { exercise: exercise.exercise, duration: exercise.duration };
     });
 
-    fetch(
-      "https://tungabhadra-recursion-038.onrender.com/workouts/addWorkout",
-      {
-        method: "POST",
-        headers: {
-          "Content-type": "application/json",
-          Authorization: `Bearer ${auth.accessToken}`,
-        },
-        body: JSON.stringify(newData),
-      }
-    )
+    fetch(`${BASE_URL}/workouts/addWorkout`, {
+      method: "POST",
+      headers: {
+        "Content-type": "application/json",
+        Authorization: `Bearer ${auth.accessToken}`,
+      },
+      body: JSON.stringify(newData),
+    })
       .then((response) => response.json())
       .then((responseData) => {
         console.log(responseData);
@@ -172,15 +167,12 @@ const UserDashboard = () => {
   };
 
   const fetchSearchWorkout = () => {
-    fetch(
-      `https://tungabhadra-recursion-038.onrender.com/exercises/search/?name=${searchWorkout}`,
-      {
-        headers: {
-          "Content-type": "application/json",
-          Authorization: `Bearer ${auth.accessToken}`,
-        },
-      }
-    )
+    fetch(`${BASE_URL}/exercises/search/?name=${searchWorkout}`, {
+      headers: {
+        "Content-type": "application/json",
+        Authorization: `Bearer ${auth.accessToken}`,
+      },
+    })
       .then((response) => response.json())
       .then((responseData) => setFetchedExercises(responseData.data))
       .catch((error) => {
@@ -537,8 +529,6 @@ const UserDashboard = () => {
                                 min: 1,
                               }}
                               onChange={(e) => {
-                                console.log(e.target.value);
-
                                 if (e.target.value >= 0) {
                                   const foodId = food._id;
                                   const newFood = addNewFood.filter((item) => {

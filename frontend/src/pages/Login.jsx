@@ -5,6 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useContext, useState } from "react";
 import { AuthContext } from "../contexts/AuthContext";
 import { Button, useToast } from "@chakra-ui/react";
+import { BASE_URL } from "../utils/vars";
 
 const initialData = {
   isLoading: false,
@@ -30,7 +31,7 @@ const Login = () => {
   const loginUser = async (data) => {
     setFormState({ ...formState, isLoading: true, isError: false });
 
-    fetch("https://tungabhadra-recursion-038.onrender.com/users/login", {
+    fetch(`${BASE_URL}/users/login`, {
       method: "POST",
       headers: {
         "Content-type": "application/json",
