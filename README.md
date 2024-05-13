@@ -176,7 +176,32 @@ npm run start
 
 
 
-Snapshot of Website
+#### Snapshot of Website
+
+Home Page:
+![Screenshot (59)](https://github.com/SatyajeetKumarRao/Tungabhadra-Recursion-038/assets/67307315/b72b7ecd-b010-4031-9693-79cc07d1e353)
+
+About Page:
+![Screenshot (60)](https://github.com/SatyajeetKumarRao/Tungabhadra-Recursion-038/assets/67307315/ade8d4f3-359c-4415-8f33-650ef75bfa6e)
+
+Login Page:
+![Screenshot (61)](https://github.com/SatyajeetKumarRao/Tungabhadra-Recursion-038/assets/67307315/5f7cb295-b4d0-4b1d-9526-f24729691337)
+
+Signup Page:
+![Screenshot (62)](https://github.com/SatyajeetKumarRao/Tungabhadra-Recursion-038/assets/67307315/cab13b15-b3c8-4827-9691-fdfeec53f47a)
+
+Chatbot:
+![Screenshot (63)](https://github.com/SatyajeetKumarRao/Tungabhadra-Recursion-038/assets/67307315/cc3320ef-0f77-4bc4-bc50-b721672d05ad)
+
+Dashboard Page:
+![Screenshot (65)](https://github.com/SatyajeetKumarRao/Tungabhadra-Recursion-038/assets/67307315/39dac6be-6aa4-45ba-b1c4-13ef39fbcc02)
+
+Add Meal Modal:
+![Screenshot (66)](https://github.com/SatyajeetKumarRao/Tungabhadra-Recursion-038/assets/67307315/be4f5b09-d6f6-4b9c-9dfd-0546ef55cd34)
+
+Add Workout Modal:
+![Screenshot (67)](https://github.com/SatyajeetKumarRao/Tungabhadra-Recursion-038/assets/67307315/e7e15aec-642f-4e4c-9f7e-071da84885c1)
+
 
 ## API Endpoints
 
