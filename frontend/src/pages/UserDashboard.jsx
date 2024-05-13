@@ -51,7 +51,10 @@ const UserDashboard = () => {
   const [addNewFood, setAddNewFood] = useState([]);
   const [addNewExercise, setAddNewExercise] = useState([]);
 
-  useEffect(() => {
+  const [userCalories, setUsersCalories] = useState(null);
+  const [userTargetTDEE, setuserTargetTDEE] = useState(0);
+
+  const fetchDailyLogs = () => {
     fetch(`${BASE_URL}/dailyLog/`, {
       headers: {
         Authorization: `Bearer ${auth.accessToken}`,
@@ -59,11 +62,33 @@ const UserDashboard = () => {
     })
       .then((response) => response.json())
       .then((responseData) => {
-        console.log(responseData);
+        console.log(responseData.data);
+        setUsersCalories(responseData.data);
       })
       .catch((error) => {
         console.log(error);
       });
+  };
+
+  const fetchUserData = () => {
+    fetch(`${BASE_URL}/users/user`, {
+      headers: {
+        Authorization: `Bearer ${auth.accessToken}`,
+      },
+    })
+      .then((response) => response.json())
+      .then((responseData) => {
+        console.log(responseData.data.targetTdee);
+        setuserTargetTDEE(responseData.data.targetTdee);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  useEffect(() => {
+    fetchDailyLogs();
+    fetchUserData();
   }, []);
 
   const fetchSearchMeal = () => {
@@ -112,7 +137,7 @@ const UserDashboard = () => {
         });
 
         setAddNewFood([]);
-
+        fetchDailyLogs();
         mealModal.onClose();
       })
       .catch((error) => {
@@ -152,6 +177,7 @@ const UserDashboard = () => {
         });
 
         setAddNewExercise([]);
+        fetchDailyLogs();
         workoutModal.onClose();
       })
       .catch((error) => {
@@ -207,7 +233,7 @@ const UserDashboard = () => {
                     <StatLabel className="see-more">Goal</StatLabel>
                     <br />
                     <StatNumber className="card-title">
-                      2870{" "}
+                      {userTargetTDEE + " "}
                       <span style={{ fontSize: "15px", fontWeight: "500" }}>
                         Cal
                       </span>
@@ -272,8 +298,10 @@ const UserDashboard = () => {
                     <div className="dot"></div>
                   </div>
                 </div>
-                <div className="card-time">32hrs</div>
-                <p className="recent">Last Week-36hrs</p>
+                <div className="card-time">
+                  {userCalories != null ? userCalories.totalCalories + " " : 0}
+                </div>
+                <p className="recent">Today&apos;s intake calories</p>
               </div>
             </div>
           </div>
@@ -295,8 +323,12 @@ const UserDashboard = () => {
                     <div className="dot"></div>
                   </div>
                 </div>
-                <div className="card-time">32hrs</div>
-                <p className="recent">Last Week-36hrs</p>
+                <div className="card-time">
+                  {userCalories != null
+                    ? userCalories.totalCaloriesBurned + " "
+                    : 0}
+                </div>
+                <p className="recent">Today&apos;s burned calories</p>
               </div>
             </div>
           </div>
@@ -318,8 +350,16 @@ const UserDashboard = () => {
                     <div className="dot"></div>
                   </div>
                 </div>
-                <div className="card-time">32hrs</div>
-                <p className="recent">Last Week-36hrs</p>
+                <div className="card-time">
+                  {userCalories != null
+                    ? userCalories.totalCalories -
+                      userCalories.totalCaloriesBurned +
+                      " "
+                    : 0}
+                </div>
+                <p className="recent">
+                  Today&apos;s net calories (intake - burned)
+                </p>
               </div>
             </div>
           </div>
@@ -341,16 +381,24 @@ const UserDashboard = () => {
                     <div className="dot"></div>
                   </div>
                 </div>
-                <div className="card-time">32hrs</div>
-                <p className="recent">Last Week-36hrs</p>
+                <div className="card-time">
+                  {userTargetTDEE -
+                    (userCalories != null
+                      ? userCalories.totalCalories -
+                        userCalories.totalCaloriesBurned
+                      : 0)}
+                </div>
+                <p className="recent">
+                  Today&apos;s balance calories (goal - net)
+                </p>
               </div>
             </div>
           </div>
         </div>
         <Box
-          bgGradient="linear(to-tr, #595732, #3f3f3a)"
-          minH="100vh"
-          color="white"
+          // bgGradient="linear(to-tr, #595732, #3f3f3a)"
+          // minH="100vh"
+          // color="white"
           mt={2}
         >
           <Box>
