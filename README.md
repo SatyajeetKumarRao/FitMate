@@ -173,8 +173,6 @@ npm run start
 
 ## Usage
 
-
-
 ### Snapshot of Website
 
 #### Home Page:
@@ -210,15 +208,17 @@ npm run start
 
 
 ## Credentials
+
 UserId : satyajeet@gmail.com
+
 Password : user123
 
 ## API Endpoints
 
 The deployed server can be used to fetch and sort any data. Further, it can be used to log in and register a user.
 
-API : https://tungabhadra-recursion-038.onrender.com
-Swagger Docs : https://tungabhadra-recursion-038.onrender.com/apiDocs
+- API : https://tungabhadra-recursion-038.onrender.com
+- Swagger Docs : https://tungabhadra-recursion-038.onrender.com/apiDocs
 
 #### users:
 
@@ -231,6 +231,7 @@ Swagger Docs : https://tungabhadra-recursion-038.onrender.com/apiDocs
 #### meals:
 
 - GET https://tungabhadra-recursion-038.onrender.com/meals - Get meal data
+
 - POST https://tungabhadra-recursion-038.onrender.com/meals/addMeal - Add meal data 
 
 #### exercises:
@@ -244,6 +245,7 @@ Swagger Docs : https://tungabhadra-recursion-038.onrender.com/apiDocs
 #### workouts:
 
 - GET https://tungabhadra-recursion-038.onrender.com/workouts - Get workout data
+
 - POST https://tungabhadra-recursion-038.onrender.com/workouts/addWorkout - Add workout data
 
 #### apiDocs:
@@ -259,7 +261,7 @@ List and provide a brief overview of the technologies used in the project.
 - Express.js
 - MongoDB
 - Chakra-ui
-- SAAS
+- Sass
 - Other libraries/modules
 
 ## Contributors
