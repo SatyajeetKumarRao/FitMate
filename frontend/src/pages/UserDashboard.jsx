@@ -18,9 +18,31 @@ import {
   useDisclosure,
   IconButton,
   useToast,
+  CardHeader,
+  Table,
+  Thead,
+  Tr,
+  Th,
+  Tbody,
 } from "@chakra-ui/react";
 import "../styles/fonts/material-design-iconic-font/css/material-design-iconic-font.min.css";
 
+import bgBody from "../assets/img/background-body-admin.png";
+
+import {
+  Card,
+  CardBody,
+  Flex,
+  Icon,
+  Spacer,
+  StatHelpText,
+  Text,
+} from "@chakra-ui/react";
+import medusa from "../assets/img/cardimgfree.png";
+
+import { BsArrowRight } from "react-icons/bs";
+
+import { IoIosAddCircle } from "react-icons/io";
 import { SearchIcon } from "@chakra-ui/icons";
 
 import "../styles/Dashboard/styles.css";
@@ -32,6 +54,8 @@ import balance from "../styles/images/balance.png";
 import { useContext, useEffect, useRef, useState } from "react";
 import { AuthContext } from "../contexts/AuthContext";
 import { BASE_URL } from "../utils/vars";
+import { TablesFoodRow } from "../components/Tables/TablesFoodRow";
+import { TablesWorkoutRow } from "../components/Tables/TablesWorkoutRow";
 
 const UserDashboard = () => {
   const mealModal = useDisclosure();
@@ -53,6 +77,10 @@ const UserDashboard = () => {
 
   const [userCalories, setUsersCalories] = useState(null);
   const [userTargetTDEE, setuserTargetTDEE] = useState(0);
+  const [userName, setUserName] = useState("");
+
+  const [usersMeals, setUsersMeals] = useState(null);
+  const [usersWorkout, setUsersWorkouts] = useState(null);
 
   const fetchDailyLogs = () => {
     fetch(`${BASE_URL}/dailyLog/`, {
@@ -78,7 +106,8 @@ const UserDashboard = () => {
     })
       .then((response) => response.json())
       .then((responseData) => {
-        console.log(responseData.data.targetTdee);
+        console.log(responseData.data);
+        setUserName(responseData.data.name);
         setuserTargetTDEE(responseData.data.targetTdee);
       })
       .catch((error) => {
@@ -86,9 +115,39 @@ const UserDashboard = () => {
       });
   };
 
+  const fetchMeals = () => {
+    fetch(`${BASE_URL}/meals`, {
+      headers: {
+        Authorization: `Bearer ${auth.accessToken}`,
+      },
+    })
+      .then((response) => response.json())
+      .then((responseData) => {
+        console.log(responseData.data);
+        setUsersMeals(responseData.data);
+      })
+      .catch((error) => console.log(error));
+  };
+
+  const fetchWorkout = () => {
+    fetch(`${BASE_URL}/workouts`, {
+      headers: {
+        Authorization: `Bearer ${auth.accessToken}`,
+      },
+    })
+      .then((response) => response.json())
+      .then((responseData) => {
+        console.log(responseData.data);
+        setUsersWorkouts(responseData.data);
+      })
+      .catch((error) => console.log(error));
+  };
+
   useEffect(() => {
     fetchDailyLogs();
     fetchUserData();
+    fetchMeals();
+    fetchWorkout();
   }, []);
 
   const fetchSearchMeal = () => {
@@ -138,6 +197,8 @@ const UserDashboard = () => {
 
         setAddNewFood([]);
         fetchDailyLogs();
+        fetchMeals();
+        fetchWorkout();
         mealModal.onClose();
       })
       .catch((error) => {
@@ -178,6 +239,8 @@ const UserDashboard = () => {
 
         setAddNewExercise([]);
         fetchDailyLogs();
+        fetchMeals();
+        fetchWorkout();
         workoutModal.onClose();
       })
       .catch((error) => {
@@ -215,229 +278,497 @@ const UserDashboard = () => {
 
   return (
     <>
-      <div>
-        <div
-          className="dashboardContainer"
-          style={{
-            display: "flex",
-            flexWrap: "wrap",
-            gap: "20px",
-            alignItems: "center",
-          }}
-        >
-          <div className="goalCard">
-            <div className="parent">
-              <div className="card">
-                <div className="content-box">
-                  <Stat>
-                    <StatLabel className="see-more">Goal</StatLabel>
+      <Box bgImage={bgBody} bgSize="cover" bgPosition="center center">
+        <Box p={{ sm: 2, md: 3, lg: 5 }}>
+          <Card
+            p="0px"
+            gridArea={{ md: "1 / 1 / 2 / 3", "2xl": "auto" }}
+            bgImage={medusa}
+            bgSize="cover"
+            bgPosition="50%"
+            borderRadius="20px"
+          >
+            <CardBody w="100%" h="100%">
+              <Flex
+                flexDirection={{ sm: "column", lg: "row" }}
+                w="100%"
+                h="100%"
+              >
+                <Flex
+                  flexDirection="column"
+                  h="100%"
+                  p="22px"
+                  minW="60%"
+                  lineHeight="1.6"
+                >
+                  <Text fontSize="sm" color="gray.400" fontWeight="bold">
+                    Welcome back,
+                  </Text>
+                  <Text
+                    fontSize="28px"
+                    color="#fff"
+                    fontWeight="bold"
+                    mb="18px"
+                  >
+                    {userName && userName.toUpperCase()}
+                  </Text>
+                  <Text
+                    fontSize="md"
+                    color="gray.400"
+                    fontWeight="normal"
+                    mb="auto"
+                  >
+                    Glad to see you again! <br />
                     <br />
-                    <StatNumber className="card-title">
-                      {userTargetTDEE + " "}
-                      <span style={{ fontSize: "15px", fontWeight: "500" }}>
-                        Cal
-                      </span>
-                    </StatNumber>
-                    <p className="card-content">Calories required</p>
-                    {/* <StatHelpText>
-                <StatArrow
-                  type="increase"
-                  style={{
-                    color: "#3bed4b",
-                    width: "30px",
-                    height: "30px",
-                  }}
-                />
-                23.36%
-              </StatHelpText> */}
-                  </Stat>
-                </div>
-                <div className="date-box">
-                  <span className="month">
-                    {
-                      [
-                        "January",
-                        "February",
-                        "March",
-                        "April",
-                        "May",
-                        "June",
-                        "July",
-                        "August",
-                        "September",
-                        "October",
-                        "November",
-                        "December",
-                      ][new Date().getMonth()]
-                    }
-                  </span>
-                  <span className="date">{new Date().getDate()}</span>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div className="mealCard">
-            <div className="card work">
-              <div
-                className="img-section"
-                style={{
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "flex-end",
-                }}
-              >
-                <img src={food} alt="" height="30px" width="45px" />
-              </div>
-              <div className="card-desc">
-                <div className="card-header">
-                  <div className="card-title">Food</div>
-                  <div className="card-menu">
-                    <div className="dot"></div>
-                    <div className="dot"></div>
-                    <div className="dot"></div>
-                  </div>
-                </div>
-                <div className="card-time">
-                  {userCalories != null ? userCalories.totalCalories + " " : 0}
-                </div>
-                <p className="recent">Today&apos;s intake calories</p>
-              </div>
-            </div>
-          </div>
-
-          <div className="mealCard">
-            <div className="card work">
-              <div
-                className="img-section"
-                style={{ display: "flex", justifyContent: "center" }}
-              >
-                <img src={workout} alt="" height="29px" width="70px" />
-              </div>
-              <div className="card-desc">
-                <div className="card-header">
-                  <div className="card-title">Workout</div>
-                  <div className="card-menu">
-                    <div className="dot"></div>
-                    <div className="dot"></div>
-                    <div className="dot"></div>
-                  </div>
-                </div>
-                <div className="card-time">
-                  {userCalories != null
-                    ? userCalories.totalCaloriesBurned + " "
-                    : 0}
-                </div>
-                <p className="recent">Today&apos;s burned calories</p>
-              </div>
-            </div>
-          </div>
-
-          <div className="mealCard">
-            <div className="card work">
-              <div
-                className="img-section"
-                style={{ display: "flex", justifyContent: "center" }}
-              >
-                <img src={net} alt="" height="30px" width="45px" />
-              </div>
-              <div className="card-desc">
-                <div className="card-header">
-                  <div className="card-title">Net Calorie</div>
-                  <div className="card-menu">
-                    <div className="dot"></div>
-                    <div className="dot"></div>
-                    <div className="dot"></div>
-                  </div>
-                </div>
-                <div className="card-time">
-                  {userCalories != null
-                    ? userCalories.totalCalories -
-                      userCalories.totalCaloriesBurned +
-                      " "
-                    : 0}
-                </div>
-                <p className="recent">
-                  Today&apos;s net calories (intake - burned)
-                </p>
-              </div>
-            </div>
-          </div>
-
-          <div className="mealCard">
-            <div className="card work">
-              <div
-                className="img-section"
-                style={{ display: "flex", justifyContent: "center" }}
-              >
-                <img src={balance} alt="" height="50px" width="70px" />
-              </div>
-              <div className="card-desc">
-                <div className="card-header">
-                  <div className="card-title">Balance Calorie</div>
-                  <div className="card-menu">
-                    <div className="dot"></div>
-                    <div className="dot"></div>
-                    <div className="dot"></div>
-                  </div>
-                </div>
-                <div className="card-time">
-                  {userTargetTDEE -
-                    (userCalories != null
-                      ? userCalories.totalCalories -
-                        userCalories.totalCaloriesBurned
-                      : 0)}
-                </div>
-                <p className="recent">
-                  Today&apos;s balance calories (goal - net)
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-        <Box
-          // bgGradient="linear(to-tr, #595732, #3f3f3a)"
-          // minH="100vh"
-          // color="white"
-          mt={2}
-        >
-          <Box>
-            <SimpleGrid
-              columns={{ sm: 1, md: 1, lg: 2 }}
-              spacing="8"
-              pl="10"
-              pr="10"
-              textAlign="center"
-              color="gray.400"
+                    <Text color="white">Today&apos;s Goal.</Text>
+                  </Text>
+                  <Text
+                    fontSize="3xl"
+                    color="white"
+                    fontWeight="bolder"
+                    mb="auto"
+                  >
+                    {userTargetTDEE + " "}
+                    <span style={{ fontSize: "15px", fontWeight: "500" }}>
+                      Cal
+                    </span>
+                  </Text>
+                  <Spacer />
+                  <Flex align="center">
+                    <Box
+                      p="0px"
+                      variant="no-hover"
+                      bg="transparent"
+                      my={{ sm: "1.5rem", lg: "0px" }}
+                      display={"flex"}
+                    >
+                      <Text
+                        fontSize="sm"
+                        color="#fff"
+                        fontWeight="bold"
+                        transition="all .3s ease"
+                        my={{ sm: "1.5rem", lg: "0px" }}
+                        _hover={{ me: "4px" }}
+                      >
+                        {new Date().getDate() +
+                          " " +
+                          [
+                            "January",
+                            "February",
+                            "March",
+                            "April",
+                            "May",
+                            "June",
+                            "July",
+                            "August",
+                            "September",
+                            "October",
+                            "November",
+                            "December",
+                          ][new Date().getMonth()]}
+                      </Text>
+                      <Icon
+                        as={BsArrowRight}
+                        w="20px"
+                        h="20px"
+                        color="#fff"
+                        fontSize="2xl"
+                        transition="all .3s ease"
+                        mx=".3rem"
+                        pt="4px"
+                        _hover={{ transform: "translateX(20%)" }}
+                      />
+                    </Box>
+                  </Flex>
+                </Flex>
+              </Flex>
+            </CardBody>
+          </Card>
+          <SimpleGrid columns={{ sm: 1, md: 2, xl: 4 }} spacing="24px" mt={4}>
+            {/* MiniStatistics Card */}
+            <Card
+              p="22px"
+              display="flex"
+              flexDirection="column"
+              backdropFilter="blur(120px)"
+              width="100%"
+              borderRadius="20px"
+              bg="linear-gradient(127.09deg, rgba(6, 11, 40, 0.94) 19.41%, rgba(10, 14, 35, 0.49) 76.65%)"
+              backgroundClip="border-box"
             >
-              <Box boxShadow="base" p="6" rounded="md" bg="white">
+              <Text fontSize="lg" color="gray.100" fontWeight="bold" pb="2px">
+                Food
+              </Text>
+              <CardBody display="flex" width="100%">
+                <Flex
+                  flexDirection="row"
+                  align="center"
+                  justify="center"
+                  w="100%"
+                >
+                  <Stat me="auto">
+                    <StatLabel
+                      fontSize="sm"
+                      color="gray.400"
+                      fontWeight="bold"
+                      pb="2px"
+                    >
+                      Today&apos;s intake calories
+                    </StatLabel>
+                    <Flex>
+                      <StatNumber fontSize="lg" color="#fff">
+                        {userCalories != null
+                          ? userCalories.totalCalories + " "
+                          : 0 + " "}
+                        cal
+                      </StatNumber>
+                      <StatHelpText
+                        alignSelf="flex-end"
+                        justifySelf="flex-end"
+                        m="0px"
+                        color="green.400"
+                        fontWeight="bold"
+                        ps="3px"
+                        fontSize="md"
+                      >
+                        +
+                      </StatHelpText>
+                    </Flex>
+                  </Stat>
+
+                  <img src={food} alt="" width="60px" />
+
+                  {/* <IconBox as="box" h={"45px"} w={"45px"} bg="brand.200">
+                <WalletIcon h={"24px"} w={"24px"} color="#fff" />
+              </IconBox> */}
+                </Flex>
+              </CardBody>
+            </Card>
+            {/* MiniStatistics Card */}
+            <Card
+              p="22px"
+              display="flex"
+              flexDirection="column"
+              backdropFilter="blur(120px)"
+              width="100%"
+              borderRadius="20px"
+              bg="linear-gradient(127.09deg, rgba(6, 11, 40, 0.94) 19.41%, rgba(10, 14, 35, 0.49) 76.65%)"
+              backgroundClip="border-box"
+              minH="83px"
+            >
+              <Text fontSize="lg" color="gray.100" fontWeight="bold" pb="2px">
+                Workout
+              </Text>
+              <CardBody display="flex" width="100%">
+                <Flex
+                  flexDirection="row"
+                  align="center"
+                  justify="center"
+                  w="100%"
+                >
+                  <Stat me="auto">
+                    <StatLabel
+                      fontSize="sm"
+                      color="gray.400"
+                      fontWeight="bold"
+                      pb="2px"
+                    >
+                      Today&apos;s burned calories
+                    </StatLabel>
+                    <Flex>
+                      <StatNumber fontSize="lg" color="#fff">
+                        {userCalories != null
+                          ? userCalories.totalCaloriesBurned + " "
+                          : 0 + " "}
+                        cal
+                      </StatNumber>
+                      <StatHelpText
+                        alignSelf="flex-end"
+                        justifySelf="flex-end"
+                        m="0px"
+                        color="red.500"
+                        fontWeight="bold"
+                        ps="3px"
+                        fontSize="md"
+                      >
+                        -
+                      </StatHelpText>
+                    </Flex>
+                  </Stat>
+                  <img src={workout} alt="" width="70px" />
+                </Flex>
+              </CardBody>
+            </Card>
+            {/* MiniStatistics Card */}
+            <Card
+              p="22px"
+              display="flex"
+              flexDirection="column"
+              backdropFilter="blur(120px)"
+              width="100%"
+              borderRadius="20px"
+              bg="linear-gradient(127.09deg, rgba(6, 11, 40, 0.94) 19.41%, rgba(10, 14, 35, 0.49) 76.65%)"
+              backgroundClip="border-box"
+            >
+              <Text fontSize="lg" color="gray.100" fontWeight="bold" pb="2px">
+                Net Calorie
+              </Text>
+              <CardBody display="flex" width="100%">
+                <Flex
+                  flexDirection="row"
+                  align="center"
+                  justify="center"
+                  w="100%"
+                >
+                  <Stat>
+                    <StatLabel
+                      fontSize="sm"
+                      color="gray.400"
+                      fontWeight="bold"
+                      pb="2px"
+                    >
+                      Today&apos;s net calories
+                    </StatLabel>
+
+                    <Flex>
+                      <StatNumber fontSize="lg" color="#fff">
+                        {userCalories != null
+                          ? userCalories.totalCalories -
+                            userCalories.totalCaloriesBurned +
+                            " "
+                          : 0 + " "}
+                        cal
+                      </StatNumber>
+                      <StatHelpText
+                        alignSelf="flex-end"
+                        justifySelf="flex-end"
+                        m="0px"
+                        color="red.500"
+                        fontWeight="bold"
+                        ps="3px"
+                        fontSize="md"
+                      >
+                        {" "}
+                      </StatHelpText>
+                    </Flex>
+                  </Stat>
+                  <img src={net} alt="" width="55px" />
+                </Flex>
+              </CardBody>
+            </Card>
+            {/* MiniStatistics Card */}
+            <Card
+              p="22px"
+              display="flex"
+              flexDirection="column"
+              backdropFilter="blur(120px)"
+              width="100%"
+              borderRadius="20px"
+              bg="linear-gradient(127.09deg, rgba(6, 11, 40, 0.94) 19.41%, rgba(10, 14, 35, 0.49) 76.65%)"
+              backgroundClip="border-box"
+            >
+              <Text fontSize="lg" color="gray.100" fontWeight="bold" pb="2px">
+                Balance Calorie
+              </Text>
+
+              <CardBody display="flex" width="100%">
+                <Flex
+                  flexDirection="row"
+                  align="center"
+                  justify="center"
+                  w="100%"
+                >
+                  <Stat me="auto">
+                    <StatLabel
+                      fontSize="sm"
+                      color="gray.400"
+                      fontWeight="bold"
+                      pb="2px"
+                    >
+                      Today&apos;s balance calories
+                    </StatLabel>
+                    <Flex>
+                      <StatNumber fontSize="lg" color="#fff" fontWeight="bold">
+                        {userTargetTDEE -
+                          (userCalories != null
+                            ? userCalories.totalCalories -
+                              userCalories.totalCaloriesBurned
+                            : 0)}{" "}
+                        cal
+                      </StatNumber>
+                      <StatHelpText
+                        alignSelf="flex-end"
+                        justifySelf="flex-end"
+                        m="0px"
+                        color="green.400"
+                        fontWeight="bold"
+                        ps="3px"
+                        fontSize="md"
+                      >
+                        {" "}
+                      </StatHelpText>
+                    </Flex>
+                  </Stat>
+                  <img src={balance} alt="" width="80px" />
+                </Flex>
+              </CardBody>
+            </Card>
+          </SimpleGrid>
+
+          <Card
+            p="22px"
+            display="flex"
+            flexDirection="column"
+            backdropFilter="blur(120px)"
+            width="100%"
+            borderRadius="20px"
+            bg="linear-gradient(127.09deg, rgba(6, 11, 40, 0.94) 19.41%, rgba(10, 14, 35, 0.49) 76.65%)"
+            backgroundClip="border-box"
+            my="22px"
+            overflowX={{ sm: "scroll", xl: "hidden" }}
+            pb="0px"
+          >
+            <CardHeader display="flex" width="100%" p="6px 0px 22px 0px">
+              <Flex direction="column">
+                <Text fontSize="lg" color="#fff" fontWeight="bold" mb=".5rem">
+                  Food Table
+                </Text>
                 <Button
-                  size="md"
-                  height="40px"
-                  width="150px"
-                  border="2px"
-                  borderColor="green.500"
+                  colorScheme="teal"
+                  variant="ghost"
+                  _hover={{ bg: "#00000000" }}
                   onClick={mealModal.onOpen}
                 >
-                  Add Meal
+                  <Flex align="center">
+                    <Icon
+                      as={IoIosAddCircle}
+                      color="green.500"
+                      w="15px"
+                      h="15px"
+                      me="5px"
+                    />
+                    <Text fontSize="sm" color="gray.400" fontWeight="normal">
+                      Add Food
+                    </Text>
+                  </Flex>
                 </Button>
-              </Box>
+              </Flex>
+            </CardHeader>
+            <CardBody display="flex" width="100%">
+              <Table variant="simple" color="#fff">
+                <Thead>
+                  <Tr my=".8rem" ps="0px">
+                    <Th ps="0px" color="gray.400" borderBottomColor="#56577A">
+                      Food
+                    </Th>
+                    <Th color="gray.400" borderBottomColor="#56577A">
+                      Serving Size
+                    </Th>
+                    <Th color="gray.400" borderBottomColor="#56577A">
+                      Quantity
+                    </Th>
+                    <Th color="gray.400" borderBottomColor="#56577A">
+                      Remove
+                    </Th>
+                    <Th borderBottomColor="#56577A"></Th>
+                  </Tr>
+                </Thead>
+                <Tbody>
+                  {usersMeals &&
+                    usersMeals.map((item, index) => {
+                      return (
+                        <TablesFoodRow
+                          key={index}
+                          {...item}
+                          lastItem={
+                            index === usersMeals.length - 1 ? true : false
+                          }
+                        />
+                      );
+                    })}
+                </Tbody>
+              </Table>
+            </CardBody>
+          </Card>
 
-              <Box boxShadow="base" p="6" rounded="md" bg="white">
+          <Card
+            p="22px"
+            display="flex"
+            flexDirection="column"
+            backdropFilter="blur(120px)"
+            width="100%"
+            borderRadius="20px"
+            bg="linear-gradient(127.09deg, rgba(6, 11, 40, 0.94) 19.41%, rgba(10, 14, 35, 0.49) 76.65%)"
+            backgroundClip="border-box"
+            my="22px"
+            overflowX={{ sm: "scroll", xl: "hidden" }}
+            pb="0px"
+          >
+            <CardHeader display="flex" width="100%" p="6px 0px 22px 0px">
+              <Flex direction="column">
+                <Text fontSize="lg" color="#fff" fontWeight="bold" mb=".5rem">
+                  Workout Table
+                </Text>
                 <Button
-                  size="md"
-                  height="40px"
-                  width="150px"
-                  border="2px"
-                  borderColor="green.500"
+                  colorScheme="teal"
+                  variant="ghost"
+                  _hover={{ bg: "#00000000" }}
                   onClick={workoutModal.onOpen}
                 >
-                  Add Workout
+                  <Flex align="center">
+                    <Icon
+                      as={IoIosAddCircle}
+                      color="green.500"
+                      w="15px"
+                      h="15px"
+                      me="5px"
+                    />
+                    <Text fontSize="sm" color="gray.400" fontWeight="normal">
+                      Add Workout
+                    </Text>
+                  </Flex>
                 </Button>
-              </Box>
-            </SimpleGrid>
-          </Box>
+              </Flex>
+            </CardHeader>
+            <CardBody display="flex" width="100%">
+              <Table variant="simple" color="#fff">
+                <Thead>
+                  <Tr my=".8rem" ps="0px">
+                    <Th ps="0px" color="gray.400" borderBottomColor="#56577A">
+                      Workout
+                    </Th>
+                    <Th color="gray.400" borderBottomColor="#56577A">
+                      Cal Burned/min
+                    </Th>
+                    <Th color="gray.400" borderBottomColor="#56577A">
+                      Duration
+                    </Th>
+                    <Th color="gray.400" borderBottomColor="#56577A">
+                      Remove
+                    </Th>
+                    <Th borderBottomColor="#56577A"></Th>
+                  </Tr>
+                </Thead>
+                <Tbody>
+                  {usersWorkout &&
+                    usersWorkout.map((item, index) => {
+                      return (
+                        <TablesWorkoutRow
+                          key={index}
+                          {...item}
+                          lastItem={
+                            index === usersWorkout.length - 1 ? true : false
+                          }
+                        />
+                      );
+                    })}
+                </Tbody>
+              </Table>
+            </CardBody>
+          </Card>
         </Box>
+
+        {/* ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// */}
 
         <Modal
           initialFocusRef={initialRef}
@@ -801,7 +1132,7 @@ const UserDashboard = () => {
             </ModalFooter>
           </ModalContent>
         </Modal>
-      </div>
+      </Box>
     </>
   );
 };

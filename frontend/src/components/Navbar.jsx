@@ -76,6 +76,12 @@ const NavBar = () => {
           displayText: "Dashboard",
         }
       : null,
+    auth.isAuth
+      ? {
+          to: "/profile",
+          displayText: "Profile",
+        }
+      : null,
   ].filter((link) => link !== null);
 
   const defaultStyle = {
