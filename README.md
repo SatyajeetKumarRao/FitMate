@@ -196,7 +196,8 @@ npm run start
 
 
 #### Dashboard Page:
-![Screenshot (65)](https://github.com/SatyajeetKumarRao/Tungabhadra-Recursion-038/assets/67307315/c208e36c-9f32-4789-9a6d-e370dae689ec)
+![Screenshot (69)](https://github.com/SatyajeetKumarRao/Tungabhadra-Recursion-038/assets/67307315/bf26d397-79fc-4e4c-a46b-5553fed1bd3b)
+![Screenshot (70)](https://github.com/SatyajeetKumarRao/Tungabhadra-Recursion-038/assets/67307315/06bf6104-79b7-4c54-9c60-fb63bc184fa8)
 
 
 #### Add Meal Modal:
