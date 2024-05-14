@@ -167,7 +167,7 @@ cd backend/
 npm install
 
 # Run the server
-npm run start
+npm run server
 
 ```
 
