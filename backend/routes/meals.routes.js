@@ -2,6 +2,7 @@ const express = require("express");
 const { Meal } = require("../models/Meals.model");
 const { authenticateUser } = require("../middleware/users.middleware");
 const { DailyLog } = require("../models/DailyLogs.model");
+const { mongoose } = require("mongoose");
 
 const mealsRouter = express.Router();
 
@@ -63,9 +64,39 @@ mealsRouter.post("/addMeal", authenticateUser, async (req, res) => {
   }
 });
 
-mealsRouter.get("/", authenticateUser, (req, res) => {
+mealsRouter.get("/", authenticateUser, async (req, res) => {
   try {
     const userId = req.userId;
+
+    console.log(todayDate());
+
+    const meal = await Meal.findOne({ date: todayDate(), user: req.userId });
+
+    if (!meal) {
+      return res.status(200).json({ data: null });
+    } else {
+      const result = await Meal.aggregate([
+        {
+          $match: {
+            user: new mongoose.Types.ObjectId(userId),
+            date: todayDate(),
+          },
+        },
+        { $unwind: "$foods" },
+        {
+          $lookup: {
+            from: "foods",
+            localField: "foods.food",
+            foreignField: "_id",
+            as: "foodDetails",
+          },
+        },
+        { $unwind: "$foodDetails" },
+        { $project: { _id: 0, foodDetails: 1, quantity: "$foods.quantity" } },
+      ]);
+
+      return res.status(200).json({ data: result });
+    }
   } catch (error) {
     console.log(error.message);
     return res.status(500).json({ error: true, message: error.message });

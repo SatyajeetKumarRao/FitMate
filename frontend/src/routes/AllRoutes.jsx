@@ -5,6 +5,7 @@ import { Home } from "../components/Home";
 import { About } from "../components/About";
 import { UserDashboard } from "../pages/UserDashboard";
 import { PrivateRoute } from "./PrivateRoute";
+import { Profile } from "../pages/Profile";
 
 const AllRoutes = () => {
   return (
@@ -13,7 +14,22 @@ const AllRoutes = () => {
       <Route path="/login" element={<Login />} />
       <Route path="/signup" element={<Signup />} />
       <Route path="/about" element={<About />} />
-      <Route path="/dashboard" element={<PrivateRoute><UserDashboard /></PrivateRoute>} />
+      <Route
+        path="/dashboard"
+        element={
+          <PrivateRoute>
+            <UserDashboard />
+          </PrivateRoute>
+        }
+      />
+      <Route
+        path="/profile"
+        element={
+          <PrivateRoute>
+            <Profile />
+          </PrivateRoute>
+        }
+      />
     </Routes>
   );
 };
