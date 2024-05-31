@@ -52,7 +52,7 @@ app.all("*", (req, res) => {
 app.listen(process.env.PORT, async () => {
   await connectDB();
   console.log(`Server is running at port ${process.env.PORT}`);
-  keepAlive();
+  // keepAlive();
 });
 
 module.exports = app;
