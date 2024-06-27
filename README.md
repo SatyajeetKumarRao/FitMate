@@ -12,7 +12,7 @@ Frontend | Backend | FullStack
 
 Frontend: https://tungabhadra-recursion-038.vercel.app
 
-Backend: https://tungabhadra-recursion-038.onrender.com
+Backend: https://tungabhadra-recursion-038-rkl5.onrender.com
 
 ## Directory Structure
 
