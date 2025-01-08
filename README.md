@@ -10,7 +10,7 @@ Frontend | Backend | FullStack
 
 ## Deployed App
 
-Frontend: https://tungabhadra-recursion-038.vercel.app
+Frontend: https://fitmatespace.vercel.app
 
 Backend: https://tungabhadra-recursion-038-rkl5.onrender.com
 
